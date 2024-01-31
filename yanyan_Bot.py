@@ -99,33 +99,28 @@ async def my_background_task():
     return_list = check_status()
     if return_list != ["API Key Error\nhttps://developer.hypixel.net/dashboard/"]:
         # channel_id = 1200281946643759145
+        print(return_list)
         for item in return_list:
             if item[0] in [5,6]:
-                print("solo")
                 channel_id = 1200281905174675577
             elif item[0] in [17,18]:
-                print("doubles")
                 channel_id = 1200281873973264435
             elif item[0] in [23,24]:
-                print("4s")
                 channel_id = 1200947061038776443
             elif item[0] in [37,38]:
-                print("3s")
                 channel_id = 1200281758084628520
             elif item[0] in [43,44]:
-                print("4v")
                 channel_id = 1201526061570207795
             else:
-                print("break")
                 break
             
             channel = client.get_channel(channel_id)
 
             if item[0] % 2 == 1:
-                embed = discord.Embed(title=f"🔷 [{item[6]}☆] {item[5]}{item[1]}",description=f"Won with {item[2]}\nWs {item[3]}→{item[4]}\nSession FKDR : {item[7]}",color=0x00ff00)
+                embed = discord.Embed(title=f"🔷 [{item[6]}☆] {item[5]}{item[1]}",description=f"Won with **{item[2]}**\nWs {item[3]}→ **{item[4]}**\nSession FKDR : **{item[7]}**",color=0x00ff00)
                 await channel.send(embed=embed)
             else:
-                embed = discord.Embed(title=f"🔻 [{item[6]}☆] {item[5]}{item[1]}",description=f"Lost with {item[2]}\nWs {item[3]}→{item[4]}\nSession FKDR : {item[7]}",color=0xff0000)
+                embed = discord.Embed(title=f"🔻 [{item[6]}☆] {item[5]}{item[1]}",description=f"Lost with **{item[2]}**\nWs {item[3]}→ **{item[4]}**\nSession FKDR : **{item[7]}**",color=0xff0000)
                 await channel.send(embed=embed)
     else:
         embed = discord.Embed(title=f"{return_list[0]}",color=0x0000ff)

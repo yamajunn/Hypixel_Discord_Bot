@@ -43,7 +43,6 @@ def check_status():
                 status = bedwars_status(False, data_item[58])
                 str_status = list(map(str, status))
                 if status[0] != True and str_status[1:46] != data_item[1:46]:
-                    print(data_item)
                     for i, item in enumerate(str_status):
                         if item != data_item[i]:
                             if i in [5,6, 17,18, 23,24, 37,38, 43,44]:  # solo, duo, 3s, 4s, 4v 以外は排除
@@ -78,5 +77,4 @@ def check_status():
                     change_csv(data_item[58])
                 elif status[0] == True:
                     return_list = ["Error (Possibilities of API Key Error)\nhttps://developer.hypixel.net/dashboard/"]
-    print(return_list)
     return return_list
