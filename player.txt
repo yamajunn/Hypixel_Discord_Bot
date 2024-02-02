@@ -1,0 +1,46 @@
+MCID,Win,Loss,Castle_W,Castle_L,Solo_W,Solo_L,ArmedDoubles_W,ArmedDoubles_L,LuckyDoubles_W,LuckyDoubles_L,RushDoubles_W,RushDoubles_L,UltimateDoubles_W,UltimateDoubles_L,UnderworldDoubles_W,UnderworldDoubles_L,Doubles_W,Doubles_L,VoidlessDoubles_W,VoidlessDoubles_L,Armed4s_W,Armed4s_L,4s_W,4s_L,Lucky4s_W,Lucky4s_L,Rush4s_W,Rush4s_L,Swap4s_W,Swap4s_L,Ultimate4s_W,Ultimate4s_L,Underworld4s_W,Underworld4s_L,Voidless4s_W,Voidless4s_L,3s_W,3s_L,FirstTourneyDoubles_W,FirstTourneyDoubles_L,SecondTourneyDoubles_W,SecondTourneyDoubles_L,4v_W,4v_L,Ws,FD,FK,Solo_FD,Solo_FK,Doubles_FD,Doubles_FK,3s_FD,3s_FK,4s_FD,4s_FK,4v_FD,4v_FK,UUID,Rank,Star
+bonj1,1970,3969,18,79,92,174,0,0,0,0,0,0,0,1,0,0,36,91,0,0,7,29,3580,1554,143,239,21,45,3,1,358,679,3,1,13,6,281,120,2,23,13,27,7,4,0,4050,9944,172,464,96,231,127,972,3651,8272,4,5,4f4af0573e5d4a37ad16cdaf3258270f,MVP_PLUS,482
+cocoasann,36285,8056,334,880,2637,1944,25,7,10,9,289,204,62,59,18,0,7350,1908,50,36,108,20,3731,16015,44,7,207,80,7,32,251,194,41,0,152,27,2658,450,0,0,36,4,7625,23,0,8533,104631,1884,10881,2146,33733,478,7027,4004,45690,21,7300,7fab58b26e27461db7c26b046965f433,SUPERSTAR,2373
+daikich,7343,4749,1016,4604,79,241,105,186,88,386,39,47,465,769,0,1,528,799,3,30,794,669,2650,4727,223,476,196,255,84,49,1460,1143,91,39,154,238,1375,659,3,31,6,34,634,400,0,5110,17392,239,374,826,1993,702,2893,2924,11333,419,799,01bc456b89cd45c7afa6ad3454db407a,MVP_PLUS,1295
+kuroway,1574,186,13,24,21,14,0,0,1,0,2,4,0,1,0,1,138,62,3,4,0,0,55,627,2,3,9,4,1,8,0,1,0,0,1,6,516,51,0,0,13,27,272,4,0,228,4532,14,99,68,769,59,1578,80,1758,7,328,b8b7f6367e594af4814112cd61112aa4,MVP_PLUS,202
+M02E,2433,322,0,0,47,29,1,0,0,0,0,3,0,0,0,0,90,36,0,0,0,1,85,824,15,6,10,3,5,24,10,2,0,0,13,3,1425,168,0,0,0,0,47,4,0,384,8398,29,215,38,388,192,4968,121,2774,4,53,25949eadaba244d888a942daa96e4f68,SUPERSTAR,233
+yan_narakuaikouk,2228,2777,201,714,12,98,2,10,1,2,0,29,2,26,0,0,118,242,3,5,29,88,1913,1228,24,30,48,93,24,13,76,368,0,0,15,39,584,355,0,0,0,0,286,169,0,2871,4829,96,66,249,494,388,1427,1957,2623,181,219,2f44c4e1e8924827bb998b7a300226b4,MVP_PLUS,408
+Hakuryu_999,5933,8130,111,609,163,676,12,22,50,143,38,80,114,226,19,61,225,698,15,37,198,261,4737,2593,154,183,117,207,185,77,148,166,36,27,167,235,718,685,3,37,5,35,2234,1334,0,8487,16795,674,878,726,1280,731,2235,4981,9153,1375,3249,0892bd2e292c41f2843c56e99982f458,MVP_PLUS,1200
+Wlnks,38161,6399,37,120,1078,377,7,6,38,48,35,41,31,23,13,1,21040,3927,18,28,9,5,657,6578,30,32,57,55,3,19,14,4,19,5,29,26,9433,1430,6,15,14,26,32,8,0,6823,158716,355,4441,4206,104970,1519,29620,736,19642,7,43,e23eb596934c456ab8c740c2a951b3fc,SUPERSTAR,2194
+Gokiton,1232,1266,12,91,4,126,0,2,4,17,0,1,2,6,0,0,25,151,1,4,31,8,273,387,56,48,37,41,24,9,32,29,6,7,12,10,204,270,0,0,0,0,612,446,2,1359,1943,124,80,155,183,290,428,317,718,473,534,1ced16db2bc54354917f7bf8382b8840,MVP_PLUS,167
+SummerTimeHanks,2558,691,0,0,788,435,0,0,0,0,0,0,0,0,0,1,573,153,0,0,0,0,63,458,0,0,0,1,1,2,0,0,0,0,0,0,508,39,0,0,12,28,231,1,0,733,8081,433,3091,166,2283,56,1189,75,1254,3,264,f220167b247c4f4da8b69623b55a7b2d,SUPERSTAR,159
+
+game_name = [
+            "Win","Loss",
+            "Castle_W","Castle_L",
+            "Solo_W","Solo_L",
+            "ArmedDoubles_W","ArmedDoubles_L",
+            "LuckyDoubles_W","LuckyDoubles_L",
+            "RushDoubles_W","RushDoubles_L",
+            "UltimateDoubles_W","UltimateDoubles_L",
+            "UnderworldDoubles_W","UnderworldDoubles_L",
+            "Doubles_W","Doubles_L",
+            "VoidlessDoubles_W","VoidlessDoubles_L",
+            "Armed4s_W","Armed4s_L",
+            "4s_W","4s_L",
+            "Lucky4s_W","Lucky4s_L",
+            "Rush4s_W","Rush4s_L",
+            "Swap4s_W","Swap4s_L",
+            "Ultimate4s_W","Ultimate4s_L",
+            "Underworld4s_W","Underworld4s_L",
+            "Voidless4s_W","Voidless4s_L",
+            "3s_W","3s_L",
+            "FirstTourneyDoubles_W","FirstTourneyDoubles_L",
+            "SecondTourneyDoubles_W","SecondTourneyDoubles_L",
+            "4v_W","4v_L",
+            "Ws",
+            "FD","FK",
+            "Solo_FD","Solo_FK",
+            "Doubles_FD","Doubles_FK",
+            "3s_FD","3s_FK",
+            "4s_FD","4s_FK",
+            "4v_FD","4v_FK",
+            "UUID",
+            "Rank",
+            "Star"
+            ]

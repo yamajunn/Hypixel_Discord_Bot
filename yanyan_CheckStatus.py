@@ -78,3 +78,4 @@ def check_status():
                 elif status[0] == True:
                     return_list = ["Error (Possibilities of API Key Error)\nhttps://developer.hypixel.net/dashboard/"]
     return return_list
+check_status()
