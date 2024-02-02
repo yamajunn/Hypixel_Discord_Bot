@@ -45,7 +45,7 @@ def check_status():
                 if status[0] != True and str_status[1:46] != data_item[1:46]:
                     for i, item in enumerate(str_status):
                         if item != data_item[i]:
-                            if i in [5,6, 17,18, 23,24, 37,38, 43,44]:  # solo, duo, 3s, 4s, 4v 以外は排除
+                            if i in [5,6, 17,18, 23,24, 37,38, 43,44]:  # solo, doubles, 3s, 4s, 4v 以外は排除
                                 rank = ""
                                 if str_status[59] == "SUPERSTAR":
                                     rank = "[MVP++] "
