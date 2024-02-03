@@ -9,4 +9,4 @@ HYPIXEL_TOKEN=Your hypixel token
 
 By adding a channel for notification of results, you can check the match results of the added players.
 
-\(0 w 0)/
+(0 w 0)ｲｴｰｲ
