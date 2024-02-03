@@ -6,6 +6,7 @@ def add_player(name):
         players = []
         data = e.read()
         data = data.split("\n")
+        total_player = len(data)
         for i, item in enumerate(data):
             item_data = item.split(",")
             if i != 0 and i != len(data)-1:
@@ -14,13 +15,16 @@ def add_player(name):
         with open('./player.csv', 'a', newline="") as e:
             writer = csv.writer(e)
             status = bedwars_status(True, name)
-            if status[0] != True and not name in players:
-                writer.writerow(status)
-                return f"Success! add {name}"
-            elif status[1] == "api key error":
-                return "Error (Possibilities of API Key Error)\nhttps://developer.hypixel.net/dashboard/"
+            if status[0] != True:
+                if total_player <= 25:
+                    writer.writerow(status)
+                    return f"Success! add {name}"
+                else:
+                    return f"Cannot add more than 25 people ({name})"
+            elif status[0] == True:
+                return f"{status[1]} ({name})"
             else:
-                return f"{name} is Error"
+                return f"Unknown Error ({name})"
     else:
         return f"{name} has already been added."
 # print(add_player("Gokiton"))

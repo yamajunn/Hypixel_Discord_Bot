@@ -14,7 +14,7 @@ def allreset_session():
             elif i != len(data)-1:
                 uuid_list.append(split_item[58])
     
-    return_text = "Reset All Session!"
+    return_text = ""
     with open('./player.csv', 'w', newline="") as e:
         writer = csv.writer(e)
         writer.writerow(first)
@@ -22,6 +22,7 @@ def allreset_session():
             status = bedwars_status(False, uuid)
             if status[0] != True:
                 writer.writerow(status)
+                return_text = f"{return_text}Reset {status[0]} Session!\n"
             else:
-                return_text = "Error (Possibilities of API Key Error)\nhttps://developer.hypixel.net/dashboard/"
+                return_text = f"{return_text}{status[1]}({status[2]})\n"
     return return_text

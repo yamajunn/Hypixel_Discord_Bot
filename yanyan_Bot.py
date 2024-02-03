@@ -36,41 +36,39 @@ async def on_ready():
         json.dump(di, f)
 
 
-@tree.command(name="command",description="Show command list")
-async def command_command(interaction: discord.Interaction):
-    embed = discord.Embed(title="Command List",description="/command　Show this command list\n/start　Start tracking\n/stop　Stop tracking\n/add [name]　Add player\n/delete [name]　Delete player\n/reset [name]　Reset player session\n/allreset　Reset sessions for all players\n/token [token]　Enter Hypixel token",color=0x0000ff)
-    await interaction.response.send_message(embed=embed)
-
-
 @tree.command(name="add",description="Add player")
 async def add_command(interaction: discord.Interaction,name:str):
+    await interaction.response.defer()
     add_return = add_player(name)
     embed = discord.Embed(title=f"{add_return}",color=0x0000ff)
-    await interaction.response.send_message(embed=embed)
+    await interaction.followup.send(embed=embed)
 
 
 @tree.command(name="delete",description="Delete player")
 async def delete_command(interaction: discord.Interaction,name:str):
+    await interaction.response.defer()
     delete_player(name)
     embed = discord.Embed(title=f"Success delete {name}",color=0x0000ff)
-    await interaction.response.send_message(embed=embed)
+    await interaction.followup.send(embed=embed)
 
 
 @tree.command(name="list",description="Player list")
 async def list_command(interaction: discord.Interaction):
+    await interaction.response.defer()
     players = player_list()
     players_text = ""
     for item in players:
         players_text = f"{players_text}{item}\n"
     embed = discord.Embed(title="Player List",description=players_text,color=0x0000ff)
-    await interaction.response.send_message(embed=embed)
+    await interaction.followup.send(embed=embed)
 
 
 @tree.command(name="output",description="Output player list")
 async def list_command(interaction: discord.Interaction):
+    await interaction.response.defer()
     players = player_list()
     embed = discord.Embed(description=players,color=0x0000ff)
-    await interaction.response.send_message(embed=embed)
+    await interaction.followup.send(embed=embed)
 
 
 @tree.command(name="input",description="Input player list")
@@ -87,9 +85,10 @@ async def list_command(interaction: discord.Interaction,players:str):
 
 @tree.command(name="reset",description="Reset player session")
 async def reset_command(interaction: discord.Interaction,name:str):
+    await interaction.response.defer()
     return_text = reset_session(name)
     embed = discord.Embed(title=f"{return_text}",color=0x0000ff)
-    await interaction.response.send_message(embed=embed)
+    await interaction.followup.send(embed=embed)
 
 
 @tree.command(name="allreset",description="Reset sessions for all players")
@@ -134,9 +133,10 @@ async def stop_command(interaction: discord.Interaction):
 
 @tree.command(name="token",description="Enter Hypixel token")
 async def token_command(interaction: discord.Interaction,token:str):
+    await interaction.response.defer()
     dotenv.set_key(dotenv_file, "HYPIXEL_TOKEN", token)
     embed = discord.Embed(title=f"Success!",color=0x0000ff)
-    await interaction.response.send_message(embed=embed)
+    await interaction.followup.send(embed=embed)
 
 
 @tree.command(name="status",description="Player list")
@@ -152,7 +152,7 @@ async def status_command(interaction: discord.Interaction):
     await interaction.followup.send(embed=embed)
 
 
-@tasks.loop(seconds=30)  # 何秒おきにステータスをチェックするか指定(今は60秒)
+@tasks.loop(seconds=30)  # 何秒おきにステータスをチェックするか指定(今は30秒)
 async def my_background_task():
     return_list = check_status()
     if return_list != ["API Key Error\nhttps://developer.hypixel.net/dashboard/"]:
@@ -175,10 +175,10 @@ async def my_background_task():
             channel = client.get_channel(channel_id)
 
             if item[0] % 2 == 1:
-                embed = discord.Embed(title=f"🔷 [{item[6]}☆] {item[5]}{item[1]}",description=f"     Won with **{item[2]}**\n     修正中:Ws {item[3]}→ **{item[4]}**\n     Session FKDR : **{item[7]}**",color=0x00ff00)
+                embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws {item[3]}→ **{int(item[3])+1}**\n     Session FKDR : **{item[6]}**",color=0x00ff00)
                 await channel.send(embed=embed)
             else:
-                embed = discord.Embed(title=f"🔻 [{item[6]}☆] {item[5]}{item[1]}",description=f"     Lost with **{item[2]}**\n     修正中:Ws {item[3]}→ **{item[4]}**\n     Session FKDR : **{item[7]}**",color=0xff0000)
+                embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws {item[3]}→ **{0}**\n     Session FKDR : **{item[6]}**",color=0xff0000)
                 await channel.send(embed=embed)
     else:
         embed = discord.Embed(title=f"{return_list[0]}",color=0x0000ff)

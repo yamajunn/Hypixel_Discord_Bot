@@ -73,9 +73,9 @@ def check_status():
                                         fkdr = round((int(str_status[57])-int(data_item[57])) / (int(str_status[56])-int(data_item[56])), 2)
                                 except ZeroDivisionError:
                                     fkdr = 1
-                                return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[45], str_status[45], rank, str_status[60], fkdr])
-                    change_csv(data_item[58])
+                                return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[45], rank, str_status[60], fkdr])
+                                change_csv(data_item[58],i % 2, data_item[45])
                 elif status[0] == True:
-                    return_list = ["Error (Possibilities of API Key Error)\nhttps://developer.hypixel.net/dashboard/"]
+                    return_list = [status[1]]
     return return_list
 check_status()

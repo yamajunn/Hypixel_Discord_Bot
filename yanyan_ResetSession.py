@@ -19,5 +19,5 @@ def reset_session(name):
         if status[0] != True:
             writer.writerow(status)
         else:
-            return_text = "Error (Possibilities of API Key Error)\nhttps://developer.hypixel.net/dashboard/"
+            return_text = status[1]
     return return_text
