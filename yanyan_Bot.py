@@ -73,9 +73,9 @@ async def list_command(interaction: discord.Interaction):
 
 @tree.command(name="input",description="Input player list")
 async def list_command(interaction: discord.Interaction,players:str):
+    await interaction.response.defer()
     players = players[1:len(players)-1].replace("'","").replace(" ","").split(",")
     text = ""
-    await interaction.response.defer()
     for item in players:
         return_text = add_player(item)
         text = f"{text}\n{return_text}"
@@ -95,7 +95,7 @@ async def reset_command(interaction: discord.Interaction,name:str):
 async def allreset_command(interaction: discord.Interaction):
     await interaction.response.defer()
     return_text = allreset_session()
-    embed = discord.Embed(title=f"{return_text}",color=0x0000ff)
+    embed = discord.Embed(title="Reset everything",description=f"{return_text}",color=0x0000ff)
     await interaction.followup.send(embed=embed)
 
 
@@ -141,14 +141,14 @@ async def token_command(interaction: discord.Interaction,token:str):
 
 @tree.command(name="status",description="Player list")
 async def status_command(interaction: discord.Interaction):
-    players_text = ""
     await interaction.response.defer()
+    players_text = ""
     player_status = get_online_list()
     for item in player_status[0]:
         players_text = f"{players_text}🟢  {item}\n"
     for item in player_status[1]:
         players_text = f"{players_text}🔴  {item}\n"
-    embed = discord.Embed(title=players_text,color=0x0000ff)
+    embed = discord.Embed(title="Player Status",description=players_text,color=0x0000ff)
     await interaction.followup.send(embed=embed)
 
 

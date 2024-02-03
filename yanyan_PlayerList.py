@@ -7,5 +7,5 @@ def player_list():
             item_data = item.split(",")
             if i != len(data)-1 and i != 0:
                 players.append(item_data[0])
-        players.append(f"Total {len(data)}")
+        players.append(f"**Total {len(data)}**")
     return players

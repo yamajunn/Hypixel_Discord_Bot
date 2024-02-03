@@ -11,7 +11,7 @@ def reset_session(name):
             if i != len(data)-1 and split_item[0] != name:
                 csv_list.append(split_item)
     
-    return_text = "Reset Session!"
+    return_text = f"Reset {name} Session!"
     with open('./player.csv', 'w', newline="") as e:
         writer = csv.writer(e)
         writer.writerows(csv_list)
