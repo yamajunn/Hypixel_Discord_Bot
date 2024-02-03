@@ -67,6 +67,7 @@ async def list_command(interaction: discord.Interaction):
 async def list_command(interaction: discord.Interaction):
     await interaction.response.defer()
     players = player_list()
+    players = players[0:len(players)-1]
     embed = discord.Embed(description=players,color=0x0000ff)
     await interaction.followup.send(embed=embed)
 
@@ -175,10 +176,10 @@ async def my_background_task():
             channel = client.get_channel(channel_id)
 
             if item[0] % 2 == 1:
-                embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws {item[3]}→ **{int(item[3])+1}**\n     Session FKDR : **{item[6]}**",color=0x00ff00)
+                embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws : {item[3]} → **{int(item[3])+1}**\n     Session FKDR : {item[7]} → **{item[6]}**",color=0x00ff00)
                 await channel.send(embed=embed)
             else:
-                embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws {item[3]}→ **{0}**\n     Session FKDR : **{item[6]}**",color=0xff0000)
+                embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws : {item[3]} → **{0}**\n     Session FKDR : {item[7]} → **{item[6]}**",color=0xff0000)
                 await channel.send(embed=embed)
     else:
         embed = discord.Embed(title=f"{return_list[0]}",color=0x0000ff)

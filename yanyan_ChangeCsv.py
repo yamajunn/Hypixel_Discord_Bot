@@ -1,7 +1,7 @@
 import csv
 from yanyan_GetStatus import bedwars_status
 
-def change_csv(uuid, num, ws):
+def change_csv(uuid, num, ws, fkdr):
     with open('./player.csv', 'r',) as e:
         data = e.read()
         data = data.split("\n")
@@ -24,4 +24,5 @@ def change_csv(uuid, num, ws):
                 status[45] = int(ws)+1
             else:
                 status[45] = 0
+            status.append(fkdr)
             writer.writerow(status)

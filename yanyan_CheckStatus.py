@@ -72,9 +72,20 @@ def check_status():
                                     elif i+(i%2-1) == 43:
                                         fkdr = round((int(str_status[57])-int(data_item[57])) / (int(str_status[56])-int(data_item[56])), 2)
                                 except ZeroDivisionError:
-                                    fkdr = 1
-                                return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[45], rank, str_status[60], fkdr])
-                                change_csv(data_item[58],i % 2, data_item[45])
+                                    if i+(i%2-1) == 1:
+                                        fkdr = int(str_status[47])-int(data_item[47])
+                                    elif i+(i%2-1) == 5:
+                                        fkdr = int(str_status[49])-int(data_item[49])
+                                    elif i+(i%2-1) == 17:
+                                        fkdr = int(str_status[51])-int(data_item[51])
+                                    elif i+(i%2-1) == 23:
+                                        fkdr = int(str_status[53])-int(data_item[53])
+                                    elif i+(i%2-1) == 37:
+                                        fkdr = int(str_status[55])-int(data_item[55])
+                                    elif i+(i%2-1) == 43:
+                                        fkdr = int(str_status[57])-int(data_item[57])
+                                return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[45], rank, str_status[60], fkdr, data_item[61]])
+                                change_csv(data_item[58],i % 2, data_item[45],fkdr)
                 elif status[0] == True:
                     return_list = [status[1]]
     return return_list

@@ -17,6 +17,7 @@ def add_player(name):
             status = bedwars_status(True, name)
             if status[0] != True:
                 if total_player <= 25:
+                    status.append(0)
                     writer.writerow(status)
                     return f"Success! add {name}"
                 else:
