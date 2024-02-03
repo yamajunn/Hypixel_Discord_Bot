@@ -74,9 +74,6 @@ def bedwars_status(bool, name):
                     else:
                         data_list.append("NONE")
                     data_list.append(data_dic["player"]['achievements']['bedwars_level'])
-                    if 'firstLogin' in data_dic["player"] and 'lastLogin' in data_dic["player"]:
-                        data_list.append(data_dic["player"]['firstLogin'])
-                        data_list.append(data_dic["player"]['lastLogin'])
                     return data_list
                 else:
                     return [True, "status error"]
@@ -88,4 +85,4 @@ def bedwars_status(bool, name):
     except KeyError:
         return [True, "api key error"]
     
-# print(bedwars_status(True, "tukasa"))
+# print(bedwars_status(True, "Gokiton"))

@@ -12,12 +12,12 @@ def change_csv(uuid):
             if i != len(data)-1 and split_item[58] != uuid:
                 csv_list.append(split_item)
             elif i != len(data)-1 and split_item[58] == uuid:
-                session = list(split_item[46:56])
+                session = list(split_item[45:56])
 
     with open('./player.csv', 'w', newline="") as e:
         writer = csv.writer(e)
         writer.writerows(csv_list)
         status = bedwars_status(False, uuid)
         if status[0] != True:
-            status[46:56] = session
+            status[45:56] = session
             writer.writerow(status)

@@ -6,14 +6,18 @@ def allreset_session():
         data = e.read()
         data = data.split("\n")
         uuid_list = []
+        first = []
         for i, item in enumerate(data):
             split_item = item.split(",")
-            if i != len(data)-1:
+            if i == 0:
+                first = split_item
+            elif i != len(data)-1:
                 uuid_list.append(split_item[58])
     
     return_text = "Reset All Session!"
     with open('./player.csv', 'w', newline="") as e:
         writer = csv.writer(e)
+        writer.writerow(first)
         for uuid in uuid_list:
             status = bedwars_status(False, uuid)
             if status[0] != True:
