@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 import dotenv
 import json
+import datetime
 
 from yanyan_AddPlayer import add_player
 from yanyan_CheckStatus import check_status
@@ -174,12 +175,13 @@ async def my_background_task():
                 break
             
             channel = client.get_channel(channel_id)
+            dt_now = datetime.datetime.now()
 
             if item[0] % 2 == 1:
-                embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws : {item[3]} → **{int(item[3])+1}**\n     Session FKDR : {item[7]} → **{item[6]}**",color=0x00ff00)
+                embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws : {item[3]} → **{int(item[3])+1}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{dt_now.year}-{dt_now.month}/{dt_now.day} {dt_now.hour}:{dt_now.minute}",color=0x00ff00)
                 await channel.send(embed=embed)
             else:
-                embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws : {item[3]} → **{0}**\n     Session FKDR : {item[7]} → **{item[6]}**",color=0xff0000)
+                embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws : {item[3]} → **{0}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{dt_now.year}-{dt_now.month}/{dt_now.day} {dt_now.hour}:{dt_now.minute}",color=0xff0000)
                 await channel.send(embed=embed)
     else:
         embed = discord.Embed(title=f"{return_list[0]}",color=0x0000ff)
