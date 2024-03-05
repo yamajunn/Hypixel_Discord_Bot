@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 import dotenv
 import json
 import datetime
+import pytz
+import csv
+from datetime import time
 
 from yanyan_AddPlayer import add_player
 from yanyan_CheckStatus import check_status
@@ -16,8 +19,9 @@ from yanyan_PlayerList import player_list
 from yanyan_Online import get_online_list
 
 dotenv_file = dotenv.find_dotenv()
-load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
+with open('api.json') as f:
+    tokens = json.load(f)
+TOKEN = tokens["DISCORD_TOKEN"]
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
@@ -33,7 +37,7 @@ async def on_ready():
     with open('status.json') as f:
         di = json.load(f)
     di["status"] = "True"
-    with open('status.json', 'wt') as f:
+    with open('status.json', 'w') as f:
         json.dump(di, f)
 
 
@@ -49,7 +53,7 @@ async def add_command(interaction: discord.Interaction,name:str):
 async def delete_command(interaction: discord.Interaction,name:str):
     await interaction.response.defer()
     delete_player(name)
-    embed = discord.Embed(title=f"Success delete {name}",color=0x0000ff)
+    embed = discord.Embed(title=f"Success! delete {name}",color=0x0000ff)
     await interaction.followup.send(embed=embed)
 
 
@@ -83,6 +87,11 @@ async def list_command(interaction: discord.Interaction,players:str):
         text = f"{text}\n{return_text}"
     embed = discord.Embed(description=text,color=0x0000ff)
     await interaction.followup.send(embed=embed)
+
+@tree.command(name="data_output",description="Output Data")
+async def list_command(interaction: discord.Interaction):
+    await interaction.response.defer()
+    await interaction.followup.send(file=discord.File("./player.csv"))
 
 
 @tree.command(name="reset",description="Reset player session")
@@ -133,16 +142,42 @@ async def stop_command(interaction: discord.Interaction):
     await interaction.followup.send(embed=embed)
 
 
-@tree.command(name="token",description="Enter Hypixel token")
-async def token_command(interaction: discord.Interaction,token:str):
+@tree.command(name="token1",description="Enter Hypixel token")
+async def token1_command(interaction: discord.Interaction,token:str):
     await interaction.response.defer()
-    dotenv.set_key(dotenv_file, "HYPIXEL_TOKEN", token)
+    with open('api.json') as f:
+        tokens = json.load(f)
+    tokens["HYPIXEL_TOKEN_0"] = token
+    with open('api.json', 'w') as f:
+        json.dump(tokens, f)
+    embed = discord.Embed(title=f"Success!",color=0x0000ff)
+    await interaction.followup.send(embed=embed)
+
+@tree.command(name="token2",description="Enter Hypixel token")
+async def token2_command(interaction: discord.Interaction,token:str):
+    await interaction.response.defer()
+    with open('api.json') as f:
+        tokens = json.load(f)
+    tokens["HYPIXEL_TOKEN_1"] = token
+    with open('api.json', 'w') as f:
+        json.dump(tokens, f)
+    embed = discord.Embed(title=f"Success!",color=0x0000ff)
+    await interaction.followup.send(embed=embed)
+
+@tree.command(name="token3",description="Enter Hypixel token")
+async def token3_command(interaction: discord.Interaction,token:str):
+    await interaction.response.defer()
+    with open('api.json') as f:
+        tokens = json.load(f)
+    tokens["HYPIXEL_TOKEN_2"] = token
+    with open('api.json', 'w') as f:
+        json.dump(tokens, f)
     embed = discord.Embed(title=f"Success!",color=0x0000ff)
     await interaction.followup.send(embed=embed)
 
 
-@tree.command(name="status",description="Player list")
-async def status_command(interaction: discord.Interaction):
+@tree.command(name="online",description="Online player list")
+async def online_command(interaction: discord.Interaction):
     await interaction.response.defer()
     players_text = ""
     player_status = get_online_list()
@@ -153,9 +188,10 @@ async def status_command(interaction: discord.Interaction):
     embed = discord.Embed(title="Player Status",description=players_text,color=0x0000ff)
     await interaction.followup.send(embed=embed)
 
-
+# max 80 member
 @tasks.loop(seconds=30)  # 何秒おきにステータスをチェックするか指定(今は30秒)
 async def my_background_task():
+    load_dotenv()
     return_list = check_status()
     if return_list != ["API Key Error\nhttps://developer.hypixel.net/dashboard/"]:
         # channel_id = 1200281946643759145
@@ -175,16 +211,20 @@ async def my_background_task():
                 break
             
             channel = client.get_channel(channel_id)
-            dt_now = datetime.datetime.now()
+            now = datetime.datetime.now(pytz.timezone('Asia/Tokyo')).time()
+
 
             if item[0] % 2 == 1:
-                embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws : {item[3]} → **{int(item[3])+1}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{dt_now.year}-{dt_now.month}/{dt_now.day} {dt_now.hour}:{dt_now.minute}",color=0x00ff00)
+                embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws : {item[3]} → **{int(item[3])+1}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{now.hour}:{now.minute}",color=0x00ff00)
                 await channel.send(embed=embed)
             else:
-                embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws : {item[3]} → **{0}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{dt_now.year}-{dt_now.month}/{dt_now.day} {dt_now.hour}:{dt_now.minute}",color=0xff0000)
+                embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws : {item[3]} → **{0}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{now.hour}:{now.minute}",color=0xff0000)
                 await channel.send(embed=embed)
     else:
-        embed = discord.Embed(title=f"{return_list[0]}",color=0x0000ff)
+        with open('status.json') as f:
+            di = json.load(f)
+        embed = discord.Embed(title=f"API has expired (number {di['api_num']+1})\nhttps://developer.hypixel.net/dashboard/\n🛑 Stop tracker",color=0x0000ff)
+        channel = client.get_channel(1200951245259686020)
         await channel.send(embed=embed)
         my_background_task.stop()
 

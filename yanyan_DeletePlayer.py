@@ -7,7 +7,7 @@ def delete_player(name):
         data = data.split("\n")
         for i, item in enumerate(data):
             item_data = item.split(",")
-            if i != len(data)-1 and item_data[0] != name:
+            if i != len(data)-1 and item_data[0].lower() != str(name).lower():
                 player_data.append(item_data)
 
     with open('./player.csv', 'w', newline="") as e:

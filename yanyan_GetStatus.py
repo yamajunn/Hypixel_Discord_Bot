@@ -1,7 +1,8 @@
 import requests
 import os
-from dotenv import load_dotenv
 import pprint
+import json
+import time
 
 def bedwars_status(bool, name):
     try:
@@ -9,8 +10,35 @@ def bedwars_status(bool, name):
             r = requests.get(call,timeout=10)
             return r.json()
         
-        load_dotenv()
-        API_KEY = os.getenv("HYPIXEL_TOKEN")
+        with open('status.json') as f:
+            di = json.load(f)
+
+        ut = time.time()
+        if ut - di["callstart"] >= 300:
+            di["callstart"] = ut
+            di["call"] = 0
+        di["call"] += 1
+
+        with open('status.json', 'w') as f:
+            json.dump(di, f)
+
+        with open('api.json') as f:
+            tokens = json.load(f)
+            
+        API_KEY = tokens["HYPIXEL_TOKEN_0"]
+        if di["call"] >= 290:
+            if di["api_num"] == 0:
+                API_KEY = tokens["HYPIXEL_TOKEN_1"]
+                di["api_num"] = 1
+            elif di["api_num"] == 1:
+                API_KEY = tokens["HYPIXEL_TOKEN_2"]
+                di["api_num"] = 2
+            elif di["api_num"] == 2:
+                API_KEY = tokens["HYPIXEL_TOKEN_0"]
+                di["api_num"] = 0
+            di["call"] = 0
+            with open('status.json', 'w') as f:
+                json.dump(di, f)
 
         if bool:
             name_link = f"https://api.mojang.com/users/profiles/minecraft/{name}"
@@ -82,6 +110,6 @@ def bedwars_status(bool, name):
         else:
             return [True, "Error : Status not Success", name]
     else:
-        return [True, "Error : dic ni player ga nai", name]
+        return [True, "API Key Error\nhttps://developer.hypixel.net/dashboard/", name]
     
 # print(bedwars_status(True, "Gokiton"))
