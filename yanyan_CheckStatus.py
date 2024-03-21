@@ -84,7 +84,6 @@ def check_status():
                                     elif i+(i%2-1) == 37:
                                         fkdr = int(str_status[55])-int(data_item[55])
                                     elif i+(i%2-1) == 43:
-                                        print(str_status[58], data_item[58])
                                         fkdr = int(str_status[58])-int(data_item[58])
                                 if i != 61:
                                     return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[45], rank, str_status[60], fkdr, data_item[62]])
