@@ -231,11 +231,11 @@ async def check_loop():
                     minute = now.minute
 
                 if item[0] % 2 == 1:
-                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws : {item[3]} → **{int(item[3])+1}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0x00ff00)
+                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0x00ff00)
                     await channel.send(embed=embed)
                     await channel.send(f"<t:{int(time.time())}:R>")
                 else:
-                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws : {item[3]} → **{0}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0xff0000)
+                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0xff0000)
                     await channel.send(embed=embed)
                     await channel.send(f"<t:{int(time.time())}:R>")
     else:

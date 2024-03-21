@@ -19,7 +19,7 @@ def get_online_list():
                 players.append(item_data[0])
 
     with open('status.json') as f:
-        di = json.load(f)
+            di = json.load(f)
 
     ut = time.time()
     if ut - di["callstart"] >= 300:
@@ -30,17 +30,19 @@ def get_online_list():
     with open('status.json', 'w') as f:
         json.dump(di, f)
 
-    load_dotenv()
-    API_KEY = os.getenv("HYPIXEL_TOKEN_0")
-    if di["call"] >= 290:
+    with open('api.json') as f:
+        tokens = json.load(f)
+        
+    API_KEY = tokens["HYPIXEL_TOKEN_0"]
+    if di["call"] >= 250:
         if di["api_num"] == 0:
-            API_KEY = os.getenv("HYPIXEL_TOKEN_1")
+            API_KEY = tokens["HYPIXEL_TOKEN_1"]
             di["api_num"] = 1
         elif di["api_num"] == 1:
-            API_KEY = os.getenv("HYPIXEL_TOKEN_2")
+            API_KEY = tokens["HYPIXEL_TOKEN_2"]
             di["api_num"] = 2
         elif di["api_num"] == 2:
-            API_KEY = os.getenv("HYPIXEL_TOKEN_0")
+            API_KEY = tokens["HYPIXEL_TOKEN_0"]
             di["api_num"] = 0
         di["call"] = 0
         with open('status.json', 'w') as f:
