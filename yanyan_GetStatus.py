@@ -103,7 +103,19 @@ def bedwars_status(bool, name):
                     data_list.append(data_dic["player"]['newPackageRank'])
                 else:
                     data_list.append("NONE")
-                data_list.append(data_dic["player"]['achievements']['bedwars_level'])
+                
+                if 'achievements' in data_dic["player"] and "bedwars_level" in data_dic["player"]['achievements']:
+                    data_list.append(data_dic["player"]['achievements']['bedwars_level'])
+                else:
+                    data_list.append(0)
+                
+                if "lastLogin" in data_dic["player"] and "lastLogout" in data_dic["player"]:
+                    if data_dic["player"]["lastLogout"] - data_dic["player"]["lastLogin"] >= 0:
+                        data_list.append(False)
+                    else:
+                        data_list.append(True)
+                else:
+                    data_list.append(False)
                 return data_list
             else:
                 return [True, "Error : None player data", name]

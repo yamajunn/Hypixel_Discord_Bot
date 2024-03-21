@@ -16,12 +16,12 @@ def add_player(name):
             writer = csv.writer(e)
             status = bedwars_status(True, name)
             if status[0] != True:
-                if total_player <= 25:
+                if total_player <= 70:
                     status.append(0)
                     writer.writerow(status)
                     return f"Success! add {name}"
                 else:
-                    return f"Cannot add more than 25 people ({name})"
+                    return f"Cannot add more than 70 people ({name})"
             elif status[0] == True:
                 return f"{status[1]} ({name})"
             else:

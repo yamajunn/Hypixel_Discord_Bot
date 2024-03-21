@@ -6,9 +6,9 @@ from dotenv import load_dotenv
 import dotenv
 import json
 import datetime
-import pytz
 import csv
-from datetime import time
+from datetime import timedelta, timezone
+import time
 
 from yanyan_AddPlayer import add_player
 from yanyan_CheckStatus import check_status
@@ -17,6 +17,7 @@ from yanyan_All_ResetSession import allreset_session
 from yanyan_DeletePlayer import delete_player
 from yanyan_PlayerList import player_list
 from yanyan_Online import get_online_list
+from yanyan_GetOnline import get_online
 
 dotenv_file = dotenv.find_dotenv()
 with open('api.json') as f:
@@ -33,7 +34,7 @@ async def on_ready():
     await tree.sync() #  コマンドを同期
     print("command sync") #  コマンドを同期した事の確認
     check_status()
-    my_background_task.start()
+    check_loop.start()
     with open('status.json') as f:
         di = json.load(f)
     di["status"] = "True"
@@ -118,7 +119,7 @@ async def start_command(interaction: discord.Interaction):
     if di["status"] == "True":
         embed = discord.Embed(title="⚠️ Already started",color=0x0000ff)
     else:
-        my_background_task.start()
+        check_loop.start()
         di["status"] = "True"
         with open('status.json', 'wt') as f:
             json.dump(di, f)
@@ -132,7 +133,7 @@ async def stop_command(interaction: discord.Interaction):
     with open('status.json') as f:
         di = json.load(f)
     if di["status"] == "True":
-        my_background_task.stop()
+        check_loop.stop()
         di["status"] = "False"
         with open('status.json', 'wt') as f:
             json.dump(di, f)
@@ -142,7 +143,7 @@ async def stop_command(interaction: discord.Interaction):
     await interaction.followup.send(embed=embed)
 
 
-@tree.command(name="token1",description="Enter Hypixel token")
+@tree.command(name="token1",description="Enter Hypixel token (yan1)")
 async def token1_command(interaction: discord.Interaction,token:str):
     await interaction.response.defer()
     with open('api.json') as f:
@@ -153,7 +154,7 @@ async def token1_command(interaction: discord.Interaction,token:str):
     embed = discord.Embed(title=f"Success!",color=0x0000ff)
     await interaction.followup.send(embed=embed)
 
-@tree.command(name="token2",description="Enter Hypixel token")
+@tree.command(name="token2",description="Enter Hypixel token (goki)")
 async def token2_command(interaction: discord.Interaction,token:str):
     await interaction.response.defer()
     with open('api.json') as f:
@@ -164,7 +165,7 @@ async def token2_command(interaction: discord.Interaction,token:str):
     embed = discord.Embed(title=f"Success!",color=0x0000ff)
     await interaction.followup.send(embed=embed)
 
-@tree.command(name="token3",description="Enter Hypixel token")
+@tree.command(name="token3",description="Enter Hypixel token (yan2)")
 async def token3_command(interaction: discord.Interaction,token:str):
     await interaction.response.defer()
     with open('api.json') as f:
@@ -190,43 +191,66 @@ async def online_command(interaction: discord.Interaction):
 
 # max 80 member
 @tasks.loop(seconds=30)  # 何秒おきにステータスをチェックするか指定(今は30秒)
-async def my_background_task():
+async def check_loop():
     load_dotenv()
     return_list = check_status()
+    print(return_list)
     if return_list != ["API Key Error\nhttps://developer.hypixel.net/dashboard/"]:
-        # channel_id = 1200281946643759145
         print(return_list)
         for item in return_list:
-            if item[0] in [5,6]:
-                channel_id = 1200281905174675577
-            elif item[0] in [17,18]:
-                channel_id = 1200281873973264435
-            elif item[0] in [23,24]:
-                channel_id = 1200947061038776443
-            elif item[0] in [37,38]:
-                channel_id = 1200281758084628520
-            elif item[0] in [43,44]:
-                channel_id = 1201526061570207795
+            if item == True:
+                channel = client.get_channel(1220168548136259634)
+                message = await channel.fetch_message(1220209163196567553)
+                online_list, offline_list = get_online()
+                await message.edit(content=f"{online_list}\r{offline_list}")
             else:
-                break
-            
-            channel = client.get_channel(channel_id)
-            now = datetime.datetime.now(pytz.timezone('Asia/Tokyo')).time()
+                if item[0] in [5,6]:
+                    channel_id = 1200281905174675577
+                elif item[0] in [17,18]:
+                    channel_id = 1200281873973264435
+                elif item[0] in [23,24]:
+                    channel_id = 1200947061038776443
+                elif item[0] in [37,38]:
+                    channel_id = 1200281758084628520
+                elif item[0] in [43,44]:
+                    channel_id = 1201526061570207795
+                else:
+                    break
+                
+                channel = client.get_channel(channel_id)
+                # tz = timezone(timedelta(hours=+9), 'Asia/Tokyo').time()
+                now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).time()
 
+                if now.hour < 10:
+                    hour = f"0{now.hour}"
+                else:
+                    hour = now.hour
+                if now.minute < 10:
+                    minute = f"0{now.minute}"
+                else:
+                    minute = now.minute
 
-            if item[0] % 2 == 1:
-                embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws : {item[3]} → **{int(item[3])+1}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{now.hour}:{now.minute}",color=0x00ff00)
-                await channel.send(embed=embed)
-            else:
-                embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws : {item[3]} → **{0}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{now.hour}:{now.minute}",color=0xff0000)
-                await channel.send(embed=embed)
+                if item[0] % 2 == 1:
+                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Won with **{item[2]}**\n     Ws : {item[3]} → **{int(item[3])+1}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0x00ff00)
+                    await channel.send(embed=embed)
+                    await channel.send(f"<t:{int(time.time())}:R>")
+                else:
+                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"     Lost with **{item[2]}**\n     Ws : {item[3]} → **{0}**\n     Session FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0xff0000)
+                    await channel.send(embed=embed)
+                    await channel.send(f"<t:{int(time.time())}:R>")
     else:
         with open('status.json') as f:
             di = json.load(f)
         embed = discord.Embed(title=f"API has expired (number {di['api_num']+1})\nhttps://developer.hypixel.net/dashboard/\n🛑 Stop tracker",color=0x0000ff)
         channel = client.get_channel(1200951245259686020)
         await channel.send(embed=embed)
-        my_background_task.stop()
+        if di['api_num']  == 1:
+            user = await client.fetch_user(797350769250140161)
+        else:
+            user = await client.fetch_user(805317573511479306)
+        mention = user.mention
+        await channel.send(f"{mention}")
+        check_loop.stop()
 
 
-client.run(TOKEN)  # \(0 w 0)/ ﾜｰｲ
+client.run(TOKEN)  # \(o v o)/ ﾜｰｲ

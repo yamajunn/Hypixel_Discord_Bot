@@ -6,6 +6,7 @@ def check_status():
         data = e.read()
         data = data.split("\n")
         return_list = []
+        online_list = []
         game_name = ['WIN', 'LOSS', 
                             'Castle','castle_beds_lost_bedwars',
                             'Solo','eight_one_losses_bedwars',
@@ -42,10 +43,10 @@ def check_status():
                 data_item = item.split(",")
                 status = bedwars_status(False, data_item[58])
                 str_status = list(map(str, status))
-                if status[0] != True and str_status[1:46] != data_item[1:46]:
+                if status[0] != True and (str_status[1:46] != data_item[1:46] or status[61] != data_item[61]):
                     for i, item in enumerate(str_status):
                         if item != data_item[i]:
-                            if i in [5,6, 17,18, 23,24, 37,38, 43,44]:  # solo, doubles, 3s, 4s, 4v 以外は排除
+                            if i in [5,6, 17,18, 23,24, 37,38, 43,44, 61]:  # solo, doubles, 3s, 4s, 4v 以外は排除
                                 rank = ""
                                 if str_status[59] == "SUPERSTAR":
                                     rank = "[MVP++] "
@@ -83,10 +84,16 @@ def check_status():
                                     elif i+(i%2-1) == 37:
                                         fkdr = int(str_status[55])-int(data_item[55])
                                     elif i+(i%2-1) == 43:
-                                        fkdr = int(str_status[57])-int(data_item[57])
-                                return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[45], rank, str_status[60], fkdr, data_item[61]])
-                                change_csv(data_item[58],i % 2, data_item[45],fkdr)
+                                        print(str_status[58], data_item[58])
+                                        fkdr = int(str_status[58])-int(data_item[58])
+                                if i != 61:
+                                    return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[45], rank, str_status[60], fkdr, data_item[62]])
+                                    change_csv(data_item[58],i % 2, data_item[45],fkdr, False)
+                                else:
+                                    change_csv(data_item[58], 0, 0, fkdr, True)
+                                    online_list.append(data_item[0])
+                                    return_list.append(True)
                 elif status[0] == True:
                     return_list = [status[1]]
     return return_list
-check_status()
+# check_status()
