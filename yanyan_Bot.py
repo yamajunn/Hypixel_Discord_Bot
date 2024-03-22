@@ -194,15 +194,15 @@ async def online_command(interaction: discord.Interaction):
 async def check_loop():
     load_dotenv()
     return_list = check_status()
-    print(return_list)
-    if return_list != ["API Key Error\nhttps://developer.hypixel.net/dashboard/"]:
+    if len(return_list) != 0:
         print(return_list)
+    if return_list != ["API Key Error\nhttps://developer.hypixel.net/dashboard/"]:
         for item in return_list:
             if item == True:
                 channel = client.get_channel(1220168548136259634)
-                message = await channel.fetch_message(1220574109520363640)
-                online_list, offline_list = get_online()
-                embed = discord.Embed(title="Online Player",description=f"{online_list}\r{offline_list}",color=0x0000ff)
+                message = await channel.fetch_message(1220627500535779360)
+                online_list, offline_list, total = get_online()
+                embed = discord.Embed(title="Online Player",description=f"{online_list}\r{offline_list}\rtotal **{total}**",color=0x0000ff)
                 await message.edit(content=None, embed=embed)
             else:
                 if item[0] in [5,6]:
@@ -235,32 +235,33 @@ async def check_loop():
                     embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0x00ff00)
                     # embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0x00ff00)
                     await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:T> <t:{int(time.time())}:R>")
+                    await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
                 else:
                     embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0xff0000)
                     # embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0xff0000)
                     await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:T> <t:{int(time.time())}:R>")
+                    await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
     else:
-        with open('status.json') as f:
-            di = json.load(f)
-        embed = discord.Embed(title=f"API has expired (number {di['api_num']+1})\nhttps://developer.hypixel.net/dashboard/\n🛑 Stop tracker",color=0x0000ff)
-        channel = client.get_channel(1200951245259686020)
-        await channel.send(embed=embed)
-        if di['api_num']  == 1:
-            user = await client.fetch_user(797350769250140161)
-        else:
-            user = await client.fetch_user(805317573511479306)
-        mention = user.mention
-        await channel.send(f"{mention}")
-        with open('status.json') as f:
-            di = json.load(f)
-        if di["status"] == "True":
-            check_loop.stop()
-            di["status"] = "False"
-            with open('status.json', 'wt') as f:
-                json.dump(di, f)
-        check_loop.stop()
+        # with open('status.json') as f:
+        #     di = json.load(f)
+        # embed = discord.Embed(title=f"API has expired (number {di['api_num']+1})\nhttps://developer.hypixel.net/dashboard/\n🛑 Stop tracker",color=0x0000ff)
+        # channel = client.get_channel(1200951245259686020)
+        # await channel.send(embed=embed)
+        # if di['api_num']  == 1:
+        #     user = await client.fetch_user(797350769250140161)
+        # else:
+        #     user = await client.fetch_user(805317573511479306)
+        # mention = user.mention
+        # await channel.send(f"{mention}")
+        # with open('status.json') as f:
+        #     di = json.load(f)
+        # if di["status"] == "True":
+        #     check_loop.stop()
+        #     di["status"] = "False"
+        #     with open('status.json', 'wt') as f:
+        #         json.dump(di, f)
+        # check_loop.stop()
+        pass
 
 
 client.run(TOKEN)  # \(o v o)/ ﾜｰｲ
