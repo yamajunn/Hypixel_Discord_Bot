@@ -202,7 +202,8 @@ async def check_loop():
                 channel = client.get_channel(1220168548136259634)
                 message = await channel.fetch_message(1220209163196567553)
                 online_list, offline_list = get_online()
-                await message.edit(content=f"{online_list}\r{offline_list}")
+                embed = discord.Embed(title="Online Player",description=f"{online_list}\r{offline_list}",color=0x0000ff)
+                await message.edit(content=None, embed=embed)
             else:
                 if item[0] in [5,6]:
                     channel_id = 1200281905174675577

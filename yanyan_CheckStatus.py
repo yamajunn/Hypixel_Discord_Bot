@@ -7,36 +7,37 @@ def check_status():
         data = data.split("\n")
         return_list = []
         online_list = []
-        game_name = ['WIN', 'LOSS', 
-                            'Castle','castle_beds_lost_bedwars',
-                            'Solo','eight_one_losses_bedwars',
-                            'Armed Doubles','eight_two_armed_losses_bedwars',
-                            'Lucky Doubles','eight_two_lucky_losses_bedwars',
-                            'Rush Doubles','eight_two_rush_losses_bedwars',
-                            'Ultimate Doubles','eight_two_ultimate_losses_bedwars',
-                            'Underworld Doubles','eight_two_underworld_losses_bedwars',
-                            'Doubles','eight_two_losses_bedwars',
-                            'Voidless Doubles','eight_two_voidless_losses_bedwars',
-                            'Armed 4s','four_four_armed_losses_bedwars',
-                            '4s','four_four_wins_bedwars',
-                            'Lucky 4s','four_four_lucky_losses_bedwars',
-                            'Rush 4s','four_four_rush_losses_bedwars',
-                            'Swap 4s','four_four_swap_wins_bedwars',
-                            'Ultimate 4s','four_four_ultimate_losses_bedwars',
-                            'Underworld 4s','four_four_underworld_losses_bedwars',
-                            'Voidless 4s','four_four_voidless_losses_bedwars',
-                            '3s','four_three_losses_bedwars',
-                            'First Tourney Doubles','tourney_bedwars_eight_two_0_losses_bedwars',
-                            'Second Tourney Doubles','tourney_bedwars_eight_two_1_losses_bedwars',
-                            '4v4','two_four_losses_bedwars',
-                            "Ws",
-                            'final_deaths_bedwars','final_kills_bedwars',
-                            'eight_one_final_deaths_bedwars','eight_one_final_kills_bedwars',
-                            'eight_two_final_deaths_bedwars','eight_two_final_kills_bedwars',
-                            'four_three_final_deaths_bedwars','four_three_final_kills_bedwars',
-                            'four_four_final_deaths_bedwars','four_four_final_kills_bedwars',
-                            'two_four_final_deaths_bedwars','two_four_final_kills_bedwars',
-                            ]
+        game_name = [
+            'WIN', 'LOSS', 
+            'Castle','castle_beds_lost_bedwars',
+            'Solo','eight_one_losses_bedwars',
+            'Armed Doubles','eight_two_armed_losses_bedwars',
+            'Lucky Doubles','eight_two_lucky_losses_bedwars',
+            'Rush Doubles','eight_two_rush_losses_bedwars',
+            'Ultimate Doubles','eight_two_ultimate_losses_bedwars',
+            'Underworld Doubles','eight_two_underworld_losses_bedwars',
+            'Doubles','eight_two_losses_bedwars',
+            'Voidless Doubles','eight_two_voidless_losses_bedwars',
+            'Armed 4s','four_four_armed_losses_bedwars',
+            '4s','four_four_wins_bedwars',
+            'Lucky 4s','four_four_lucky_losses_bedwars',
+            'Rush 4s','four_four_rush_losses_bedwars',
+            'Swap 4s','four_four_swap_wins_bedwars',
+            'Ultimate 4s','four_four_ultimate_losses_bedwars',
+            'Underworld 4s','four_four_underworld_losses_bedwars',
+            'Voidless 4s','four_four_voidless_losses_bedwars',
+            '3s','four_three_losses_bedwars',
+            'First Tourney Doubles','tourney_bedwars_eight_two_0_losses_bedwars',
+            'Second Tourney Doubles','tourney_bedwars_eight_two_1_losses_bedwars',
+            '4v4','two_four_losses_bedwars',
+            "Ws",
+            'final_deaths_bedwars','final_kills_bedwars',
+            'eight_one_final_deaths_bedwars','eight_one_final_kills_bedwars',
+            'eight_two_final_deaths_bedwars','eight_two_final_kills_bedwars',
+            'four_three_final_deaths_bedwars','four_three_final_kills_bedwars',
+            'four_four_final_deaths_bedwars','four_four_final_kills_bedwars',
+            'two_four_final_deaths_bedwars','two_four_final_kills_bedwars',
+            ]
         
         for i, item in enumerate(data):
             if i != 0 and i != len(data)-1:
@@ -84,7 +85,7 @@ def check_status():
                                     elif i+(i%2-1) == 37:
                                         fkdr = int(str_status[55])-int(data_item[55])
                                     elif i+(i%2-1) == 43:
-                                        fkdr = int(str_status[58])-int(data_item[58])
+                                        fkdr = int(str_status[57])-int(data_item[57])
                                 if i != 61:
                                     return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[45], rank, str_status[60], fkdr, data_item[62]])
                                     change_csv(data_item[58],i % 2, data_item[45],fkdr, False)
