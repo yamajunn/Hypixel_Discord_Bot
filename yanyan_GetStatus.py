@@ -44,6 +44,7 @@ def bedwars_status(bool, name):
             name_link = f"https://api.mojang.com/users/profiles/minecraft/{name}"
             uuid = getinfo(name_link)["id"]
             uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={uuid}"
+            # uuid_link = f"https://api.hypixel.net/recentgames?key={API_KEY}&uuid={uuid}"
         else:
             uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={name}"
             uuid = name

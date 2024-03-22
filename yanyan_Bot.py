@@ -200,7 +200,7 @@ async def check_loop():
         for item in return_list:
             if item == True:
                 channel = client.get_channel(1220168548136259634)
-                message = await channel.fetch_message(1220209163196567553)
+                message = await channel.fetch_message(1220574109520363640)
                 online_list, offline_list = get_online()
                 embed = discord.Embed(title="Online Player",description=f"{online_list}\r{offline_list}",color=0x0000ff)
                 await message.edit(content=None, embed=embed)
@@ -232,13 +232,15 @@ async def check_loop():
                     minute = now.minute
 
                 if item[0] % 2 == 1:
-                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0x00ff00)
+                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0x00ff00)
+                    # embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0x00ff00)
                     await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:R>")
+                    await channel.send(f"<t:{int(time.time())}:T> <t:{int(time.time())}:R>")
                 else:
-                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0xff0000)
+                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0xff0000)
+                    # embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0xff0000)
                     await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:R>")
+                    await channel.send(f"<t:{int(time.time())}:T> <t:{int(time.time())}:R>")
     else:
         with open('status.json') as f:
             di = json.load(f)
@@ -251,6 +253,13 @@ async def check_loop():
             user = await client.fetch_user(805317573511479306)
         mention = user.mention
         await channel.send(f"{mention}")
+        with open('status.json') as f:
+            di = json.load(f)
+        if di["status"] == "True":
+            check_loop.stop()
+            di["status"] = "False"
+            with open('status.json', 'wt') as f:
+                json.dump(di, f)
         check_loop.stop()
 
 

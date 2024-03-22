@@ -20,7 +20,7 @@ def get_online():
                 #     rank = "[VIP] "
                 
                 if item_data[61] == "True":
-                    onlines += f"🟢    [{item_data[60]}☆]   {item_data[0]}\r"
+                    onlines += f"🟢　[{item_data[60]}☆]　**{item_data[0]}**\r"
                 else:
-                    offlines += f"🔴    [{item_data[60]}☆]   {item_data[0]}\r"
+                    offlines += f"🔴　[{item_data[60]}☆]　{item_data[0]}\r"
     return [onlines, offlines]
