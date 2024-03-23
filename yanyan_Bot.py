@@ -196,72 +196,72 @@ async def check_loop():
     return_list = check_status()
     if len(return_list) != 0:
         print(return_list)
-    if return_list != ["API Key Error\nhttps://developer.hypixel.net/dashboard/"]:
-        for item in return_list:
-            if item == True:
-                channel = client.get_channel(1220168548136259634)
-                message = await channel.fetch_message(1220627500535779360)
-                online_list, offline_list, total = get_online()
-                embed = discord.Embed(title="Online Player",description=f"{online_list}\r{offline_list}\rtotal **{total}**",color=0x0000ff)
-                await message.edit(content=None, embed=embed)
+    for item in return_list:
+        if return_list != ["API Key Error\nhttps://developer.hypixel.net/dashboard/"]:
+            if item != True and item[0] != True:
+                if item == True:
+                    channel = client.get_channel(1220168548136259634)
+                    message = await channel.fetch_message(1220627500535779360)
+                    online_list, offline_list, total = get_online()
+                    embed = discord.Embed(title="Online Player",description=f"{online_list}\r{offline_list}\rtotal **{total}**",color=0x0000ff)
+                    await message.edit(content=None, embed=embed)
+                else:
+                    if item[0] in [1,2]:
+                        channel_id = 1200281905174675577
+                        print("solo")
+                    elif item[0] in [3,4]:
+                        channel_id = 1200281873973264435
+                    elif item[0] in [5,6]:
+                        channel_id = 1200947061038776443
+                    elif item[0] in [7,8]:
+                        channel_id = 1200281758084628520
+                    elif item[0] in [9,10]:
+                        channel_id = 1201526061570207795
+                    else:
+                        break
+                    channel = client.get_channel(channel_id)
+
+                    now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).time()
+                    if now.hour < 10:
+                        hour = f"0{now.hour}"
+                    else:
+                        hour = now.hour
+                    if now.minute < 10:
+                        minute = f"0{now.minute}"
+                    else:
+                        minute = now.minute
+
+                    if item[0] % 2 == 1:
+                        embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0x00ff00)
+                        # embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0x00ff00)
+                        await channel.send(embed=embed)
+                        await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
+                    else:
+                        embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0xff0000)
+                        # embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0xff0000)
+                        await channel.send(embed=embed)
+                        await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
+        else:
+            with open('status.json') as f:
+                di = json.load(f)
+            embed = discord.Embed(title=f"API has expired (number {di['api_num']+1})\nhttps://developer.hypixel.net/dashboard/\n🛑 Stop tracker",color=0x0000ff)
+            channel = client.get_channel(1200951245259686020)
+            await channel.send(embed=embed)
+            if di['api_num']  == 1:
+                user = await client.fetch_user(797350769250140161)
             else:
-                if item[0] in [5,6]:
-                    channel_id = 1200281905174675577
-                elif item[0] in [17,18]:
-                    channel_id = 1200281873973264435
-                elif item[0] in [23,24]:
-                    channel_id = 1200947061038776443
-                elif item[0] in [37,38]:
-                    channel_id = 1200281758084628520
-                elif item[0] in [43,44]:
-                    channel_id = 1201526061570207795
-                else:
-                    break
-                
-                channel = client.get_channel(channel_id)
-                # tz = timezone(timedelta(hours=+9), 'Asia/Tokyo').time()
-                now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).time()
-
-                if now.hour < 10:
-                    hour = f"0{now.hour}"
-                else:
-                    hour = now.hour
-                if now.minute < 10:
-                    minute = f"0{now.minute}"
-                else:
-                    minute = now.minute
-
-                if item[0] % 2 == 1:
-                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0x00ff00)
-                    # embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0x00ff00)
-                    await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
-                else:
-                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0xff0000)
-                    # embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0xff0000)
-                    await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
-    else:
-        # with open('status.json') as f:
-        #     di = json.load(f)
-        # embed = discord.Embed(title=f"API has expired (number {di['api_num']+1})\nhttps://developer.hypixel.net/dashboard/\n🛑 Stop tracker",color=0x0000ff)
-        # channel = client.get_channel(1200951245259686020)
-        # await channel.send(embed=embed)
-        # if di['api_num']  == 1:
-        #     user = await client.fetch_user(797350769250140161)
-        # else:
-        #     user = await client.fetch_user(805317573511479306)
-        # mention = user.mention
-        # await channel.send(f"{mention}")
-        # with open('status.json') as f:
-        #     di = json.load(f)
-        # if di["status"] == "True":
-        #     check_loop.stop()
-        #     di["status"] = "False"
-        #     with open('status.json', 'wt') as f:
-        #         json.dump(di, f)
-        # check_loop.stop()
-        pass
+                user = await client.fetch_user(805317573511479306)
+            mention = user.mention
+            await channel.send(f"{mention}")
+            with open('status.json') as f:
+                di = json.load(f)
+            if di["status"] == "True":
+                check_loop.stop()
+                di["status"] = "False"
+                with open('status.json', 'wt') as f:
+                    json.dump(di, f)
+            check_loop.stop()
+            pass
 
 
 client.run(TOKEN)  # \(o v o)/ ﾜｰｲ

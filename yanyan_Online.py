@@ -34,7 +34,7 @@ def get_online_list():
         tokens = json.load(f)
         
     API_KEY = tokens["HYPIXEL_TOKEN_0"]
-    if di["call"] >= 250:
+    if di["call"] >= 270:
         if di["api_num"] == 0:
             API_KEY = tokens["HYPIXEL_TOKEN_1"]
             di["api_num"] = 1

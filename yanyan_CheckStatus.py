@@ -6,29 +6,27 @@ def check_status():
         data = e.read()
         data = data.split("\n")
         return_list = []
-        online_list = []
         game_name = [
-            'WIN', 'LOSS', 
-            'Castle','castle_beds_lost_bedwars',
+            # 'Castle','castle_beds_lost_bedwars',
             'Solo','eight_one_losses_bedwars',
-            'Armed Doubles','eight_two_armed_losses_bedwars',
-            'Lucky Doubles','eight_two_lucky_losses_bedwars',
-            'Rush Doubles','eight_two_rush_losses_bedwars',
-            'Ultimate Doubles','eight_two_ultimate_losses_bedwars',
-            'Underworld Doubles','eight_two_underworld_losses_bedwars',
+            # 'Armed Doubles','eight_two_armed_losses_bedwars',
+            # 'Lucky Doubles','eight_two_lucky_losses_bedwars',
+            # 'Rush Doubles','eight_two_rush_losses_bedwars',
+            # 'Ultimate Doubles','eight_two_ultimate_losses_bedwars',
+            # 'Underworld Doubles','eight_two_underworld_losses_bedwars',
             'Doubles','eight_two_losses_bedwars',
-            'Voidless Doubles','eight_two_voidless_losses_bedwars',
-            'Armed 4s','four_four_armed_losses_bedwars',
+            # 'Voidless Doubles','eight_two_voidless_losses_bedwars',
+            # 'Armed 4s','four_four_armed_losses_bedwars',
             '4s','four_four_wins_bedwars',
-            'Lucky 4s','four_four_lucky_losses_bedwars',
-            'Rush 4s','four_four_rush_losses_bedwars',
-            'Swap 4s','four_four_swap_wins_bedwars',
-            'Ultimate 4s','four_four_ultimate_losses_bedwars',
-            'Underworld 4s','four_four_underworld_losses_bedwars',
-            'Voidless 4s','four_four_voidless_losses_bedwars',
+            # 'Lucky 4s','four_four_lucky_losses_bedwars',
+            # 'Rush 4s','four_four_rush_losses_bedwars',
+            # 'Swap 4s','four_four_swap_wins_bedwars',
+            # 'Ultimate 4s','four_four_ultimate_losses_bedwars',
+            # 'Underworld 4s','four_four_underworld_losses_bedwars',
+            # 'Voidless 4s','four_four_voidless_losses_bedwars',
             '3s','four_three_losses_bedwars',
-            'First Tourney Doubles','tourney_bedwars_eight_two_0_losses_bedwars',
-            'Second Tourney Doubles','tourney_bedwars_eight_two_1_losses_bedwars',
+            # 'First Tourney Doubles','tourney_bedwars_eight_two_0_losses_bedwars',
+            # 'Second Tourney Doubles','tourney_bedwars_eight_two_1_losses_bedwars',
             '4v4','two_four_losses_bedwars',
             "Ws",
             'final_deaths_bedwars','final_kills_bedwars',
@@ -42,58 +40,37 @@ def check_status():
         for i, item in enumerate(data):
             if i != 0 and i != len(data)-1:
                 data_item = item.split(",")
-                status = bedwars_status(False, data_item[58])
+                status = bedwars_status(False, data_item[22])
+                if status[0] == True and status[1] == "Error : None player data":
+                    continue
                 str_status = list(map(str, status))
-                if status[0] != True and (str_status[1:46] != data_item[1:46] or status[61] != data_item[61]):
+                if status[0] != True and (str_status[1:10] != data_item[1:10] or status[25] != data_item[25]):
                     for i, item in enumerate(str_status):
                         if item != data_item[i]:
-                            if i in [5,6, 17,18, 23,24, 37,38, 43,44, 61]:  # solo, doubles, 3s, 4s, 4v 以外は排除
-                                rank = ""
-                                if str_status[59] == "SUPERSTAR":
-                                    rank = "[MVP++] "
-                                elif str_status[59] == "MVP_PLUS":
-                                    rank = "[MVP+] "
-                                elif str_status[59] == "MVP":
-                                    rank = "[MVP] "
-                                elif str_status[59] == "VIP_PLUS":
-                                    rank = "[VIP+] "
-                                elif str_status[59] == "VIP":
-                                    rank = "[VIP] "
-                                fkdr = 0
-                                try:
-                                    if i+(i%2-1) == 1:
-                                        fkdr = round((int(str_status[47])-int(data_item[47])) / (int(str_status[46])-int(data_item[46])), 2)
-                                    elif i+(i%2-1) == 5:
-                                        fkdr = round((int(str_status[49])-int(data_item[49])) / (int(str_status[48])-int(data_item[48])), 2)
-                                    elif i+(i%2-1) == 17:
-                                        fkdr = round((int(str_status[51])-int(data_item[51])) / (int(str_status[50])-int(data_item[50])), 2)
-                                    elif i+(i%2-1) == 23:
-                                        fkdr = round((int(str_status[53])-int(data_item[53])) / (int(str_status[52])-int(data_item[52])), 2)
-                                    elif i+(i%2-1) == 37:
-                                        fkdr = round((int(str_status[55])-int(data_item[55])) / (int(str_status[54])-int(data_item[54])), 2)
-                                    elif i+(i%2-1) == 43:
-                                        fkdr = round((int(str_status[57])-int(data_item[57])) / (int(str_status[56])-int(data_item[56])), 2)
-                                except ZeroDivisionError:
-                                    if i+(i%2-1) == 1:
-                                        fkdr = int(str_status[47])-int(data_item[47])
-                                    elif i+(i%2-1) == 5:
-                                        fkdr = int(str_status[49])-int(data_item[49])
-                                    elif i+(i%2-1) == 17:
-                                        fkdr = int(str_status[51])-int(data_item[51])
-                                    elif i+(i%2-1) == 23:
-                                        fkdr = int(str_status[53])-int(data_item[53])
-                                    elif i+(i%2-1) == 37:
-                                        fkdr = int(str_status[55])-int(data_item[55])
-                                    elif i+(i%2-1) == 43:
-                                        fkdr = int(str_status[57])-int(data_item[57])
-                                if i != 61:
-                                    return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[45], rank, str_status[60], fkdr, data_item[62]])
-                                    change_csv(data_item[58],i % 2, data_item[45],fkdr, False)
+                            if i in [1,2, 3,4, 5,6, 7,8, 9,10, 25]:  # solo, doubles, 3s, 4s, 4v 以外は排除
+                                if i != 25:
+                                    rank = ""
+                                    if str_status[23] == "SUPERSTAR":
+                                        rank = "[MVP++] "
+                                    elif str_status[23] == "MVP_PLUS":
+                                        rank = "[MVP+] "
+                                    elif str_status[23] == "MVP":
+                                        rank = "[MVP] "
+                                    elif str_status[23] == "VIP_PLUS":
+                                        rank = "[VIP+] "
+                                    elif str_status[23] == "VIP":
+                                        rank = "[VIP] "
+                                    fkdr = 0
+                                    try:
+                                        fkdr = round((int(str_status[i+(i%2)+11])-int(data_item[i+(i%2)+11])) / (int(str_status[i+(i%2)+10])-int(data_item[i+(i%2)+10])), 2)
+                                    except ZeroDivisionError:
+                                        fkdr = int(str_status[i+(i%2)+11])-int(data_item[i+(i%2)+11])
+                                    return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[11], rank, str_status[24], fkdr, data_item[26]])
+                                    change_csv(data_item[22],i % 2, data_item[11],fkdr, False, i)
                                 else:
-                                    change_csv(data_item[58], 0, 0, fkdr, True)
-                                    online_list.append(data_item[0])
+                                    change_csv(data_item[22], None, None, None, True, None)
                                     return_list.append(True)
                 elif status[0] == True:
-                    return_list = [status[1]]
+                    return_list = [status]
     return return_list
 # check_status()
