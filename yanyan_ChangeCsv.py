@@ -30,10 +30,6 @@ def change_csv(uuid, num, ws, fkdr, online, mode):
                 for item in fkdrs:
                     status.append(item)
             else:
-                if status[25]:
-                    status[25] = False
-                else:
-                    status[25] = True
                 for item in fkdrs:
                     status.append(item)
             writer.writerow(status)

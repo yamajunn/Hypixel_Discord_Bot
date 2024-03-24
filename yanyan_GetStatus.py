@@ -25,8 +25,9 @@ def bedwars_status(bool, name):
         with open('api.json') as f:
             tokens = json.load(f)
             
-        API_KEY = tokens["HYPIXEL_TOKEN_0"]
-        if di["call"] >= 270:  # 27 * 3 ga max player
+        API_KEY = tokens[f"HYPIXEL_TOKEN_{di['api_num']}"]
+        if di["call"] >= 140:
+            print("change")
             if di["api_num"] == 0:
                 API_KEY = tokens["HYPIXEL_TOKEN_1"]
                 di["api_num"] = 1
