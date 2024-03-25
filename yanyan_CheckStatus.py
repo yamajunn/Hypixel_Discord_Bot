@@ -7,26 +7,10 @@ def check_status():
         data = data.split("\n")
     return_list = []
     game_name = [
-        # 'Castle','castle_beds_lost_bedwars',
         'Solo','eight_one_losses_bedwars',
-        # 'Armed Doubles','eight_two_armed_losses_bedwars',
-        # 'Lucky Doubles','eight_two_lucky_losses_bedwars',
-        # 'Rush Doubles','eight_two_rush_losses_bedwars',
-        # 'Ultimate Doubles','eight_two_ultimate_losses_bedwars',
-        # 'Underworld Doubles','eight_two_underworld_losses_bedwars',
         'Doubles','eight_two_losses_bedwars',
-        # 'Voidless Doubles','eight_two_voidless_losses_bedwars',
-        # 'Armed 4s','four_four_armed_losses_bedwars',
         '4s','four_four_wins_bedwars',
-        # 'Lucky 4s','four_four_lucky_losses_bedwars',
-        # 'Rush 4s','four_four_rush_losses_bedwars',
-        # 'Swap 4s','four_four_swap_wins_bedwars',
-        # 'Ultimate 4s','four_four_ultimate_losses_bedwars',
-        # 'Underworld 4s','four_four_underworld_losses_bedwars',
-        # 'Voidless 4s','four_four_voidless_losses_bedwars',
         '3s','four_three_losses_bedwars',
-        # 'First Tourney Doubles','tourney_bedwars_eight_two_0_losses_bedwars',
-        # 'Second Tourney Doubles','tourney_bedwars_eight_two_1_losses_bedwars',
         '4v4','two_four_losses_bedwars',
         "Ws",
         'final_deaths_bedwars','final_kills_bedwars',
@@ -40,8 +24,11 @@ def check_status():
         if i != 0 and i != len(data)-1:
             data_item = item.split(",")
             status = bedwars_status(False, data_item[22])
-            if status[0] == True and status[1] == "Error : None player data":
+            if status[0] == True and status[1] == "Key throttle":
                 continue
+            if status[0] == True and status[1] == "ApiKeyError":
+                return_list = [status]
+                break
             str_status = list(map(str, status))
             if status[0] != True and (str_status[1:10] != data_item[1:10] or status[25] != data_item[25]):
                 for i, item in enumerate(str_status):
@@ -64,7 +51,7 @@ def check_status():
                                     fkdr = round((int(str_status[i+(i%2)+11])-int(data_item[i+(i%2)+11])) / (int(str_status[i+(i%2)+10])-int(data_item[i+(i%2)+10])), 2)
                                 except ZeroDivisionError:
                                     fkdr = int(str_status[i+(i%2)+11])-int(data_item[i+(i%2)+11])
-                                return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[11], rank, str_status[24], fkdr, data_item[26]])
+                                return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[11], rank, str_status[24], fkdr, data_item[(i+(i%2))//2+25],"OK"])
                                 change_csv(data_item[22],i % 2, data_item[11],fkdr, False, i)
                             else:
                                 change_csv(data_item[22], None, None, None, True, None)

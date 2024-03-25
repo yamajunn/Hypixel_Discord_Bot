@@ -52,7 +52,7 @@ def bedwars_status(bool, name):
 
         data_dic = getinfo(uuid_link)
     except KeyError:
-        return [True, f"API Key Error\nhttps://developer.hypixel.net/dashboard/", name]
+        return [True, "ApiKeyError"]
     # print(data_dic)
     # pprint.pprint(data_dic)
     data_list = []
@@ -64,30 +64,12 @@ def bedwars_status(bool, name):
                         data_list.append(data_dic["player"]['displayname'])
                     else:
                         data_list.append("Unknown")
-                    dic_list = [# 'wins_bedwars', 'losses_bedwars', 
-                                # 'castle_wins_bedwars','castle_beds_lost_bedwars',
-                                'eight_one_wins_bedwars','eight_one_losses_bedwars',
-                                # 'eight_two_armed_wins_bedwars','eight_two_armed_losses_bedwars',
-                                # 'eight_two_lucky_wins_bedwars','eight_two_lucky_losses_bedwars',
-                                # 'eight_two_rush_wins_bedwars','eight_two_rush_losses_bedwars',
-                                # 'eight_two_ultimate_wins_bedwars','eight_two_ultimate_losses_bedwars',
-                                # 'eight_two_underworld_wins_bedwars','eight_two_underworld_losses_bedwars',
+                    dic_list = ['eight_one_wins_bedwars','eight_one_losses_bedwars',
                                 'eight_two_wins_bedwars','eight_two_losses_bedwars',
-                                # 'eight_two_voidless_wins_bedwars','eight_two_voidless_losses_bedwars',
-                                # 'four_four_armed_wins_bedwars','four_four_armed_losses_bedwars',
                                 'four_four_wins_bedwars','four_four_losses_bedwars',
-                                # 'four_four_lucky_wins_bedwars','four_four_lucky_losses_bedwars',
-                                # 'four_four_rush_wins_bedwars','four_four_rush_losses_bedwars',
-                                # 'four_four_swap_wins_bedwars','four_four_swap_losses_bedwars',
-                                # 'four_four_ultimate_wins_bedwars','four_four_ultimate_losses_bedwars',
-                                # 'four_four_underworld_wins_bedwars','four_four_underworld_losses_bedwars',
-                                # 'four_four_voidless_wins_bedwars','four_four_voidless_losses_bedwars',
                                 'four_three_wins_bedwars','four_three_losses_bedwars',
-                                # 'tourney_bedwars_eight_two_0_wins_bedwars','tourney_bedwars_eight_two_0_losses_bedwars',
-                                # 'tourney_bedwars_eight_two_1_wins_bedwars','tourney_bedwars_eight_two_1_losses_bedwars',
                                 'two_four_wins_bedwars','two_four_losses_bedwars',
                                 'winstreak',
-                                # 'final_deaths_bedwars','final_kills_bedwars',
                                 'eight_one_final_deaths_bedwars','eight_one_final_kills_bedwars',
                                 'eight_two_final_deaths_bedwars','eight_two_final_kills_bedwars',
                                 'four_three_final_deaths_bedwars','four_three_final_kills_bedwars',
@@ -123,9 +105,9 @@ def bedwars_status(bool, name):
                         data_list.append(False)
                     return data_list
                 else:
-                    return [True, "Error : Status not Success", name]
+                    return [True, "Status not Success"]
             else:
-                return [True, f"Error : None player data{data_dic}", name]
+                return [True, f"None player data{data_dic}"]
         else:
             with open('status.json') as f:
                 di = json.load(f)
@@ -140,8 +122,8 @@ def bedwars_status(bool, name):
             di["callstart"] = ut
             with open('status.json', 'w') as f:
                 json.dump(di, f)
-            return [True, f"Error : Key throttle", name]
+            return [True, f"Key throttle"]
     else:
-        return [True, f"API key Error\nhttps://developer.hypixel.net/dashboard/", name]
+        return [True, "ApiKeyError"]
     
 # print(bedwars_status(True, "Gokiton"))
