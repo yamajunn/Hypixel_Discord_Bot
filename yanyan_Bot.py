@@ -29,7 +29,7 @@ async def on_ready():
     print("Logged in as hypixel status")
     await tree.sync() #  コマンドを同期
     print("command sync") #  コマンドを同期した事の確認
-    check_status()
+    await check_status()
     check_loop.start()
     with open('status.json') as f:
         di = json.load(f)
@@ -41,7 +41,7 @@ async def on_ready():
 @tree.command(name="add",description="Add player")
 async def add_command(interaction: discord.Interaction,name:str):
     await interaction.response.defer()
-    add_return = add_player(name)
+    add_return = await add_player(name)
     print(f"{add_return}")
     embed = discord.Embed(title=f"{add_return}",color=0x0000ff)
     await interaction.followup.send(embed=embed)
@@ -100,7 +100,7 @@ async def list_command(interaction: discord.Interaction):
 @tree.command(name="reset",description="Reset player session")
 async def reset_command(interaction: discord.Interaction,name:str):
     await interaction.response.defer()
-    return_text = reset_session(name)
+    return_text = await reset_session(name)
     embed = discord.Embed(title=f"{return_text}",color=0x0000ff)
     print(f"{return_text}")
     await interaction.followup.send(embed=embed)
@@ -109,7 +109,7 @@ async def reset_command(interaction: discord.Interaction,name:str):
 @tree.command(name="allreset",description="Reset sessions for all players")
 async def allreset_command(interaction: discord.Interaction):
     await interaction.response.defer()
-    return_text = allreset_session()
+    return_text = await allreset_session()
     embed = discord.Embed(title="Reset everything",description=f"{return_text}",color=0x0000ff)
     print(f"{return_text}")
     await interaction.followup.send(embed=embed)
@@ -203,7 +203,7 @@ async def online_command(interaction: discord.Interaction):
 @tasks.loop(seconds=30)  # 何秒おきにステータスをチェックするか指定(今は30秒)
 async def check_loop():
     load_dotenv()
-    return_list = check_status()
+    return_list = await check_status()
     for item in return_list:
         print(item)
         if item == True:
@@ -212,7 +212,7 @@ async def check_loop():
             online_list, offline_list, total = get_online()
             embed = discord.Embed(title="Online Player",description=f"{online_list}\r{offline_list}\rtotal **{total}**",color=0x0000ff)
             print("online update")
-            await message.edit(content=None, embed=embed)
+            await message.edit(embed=embed, content=f"Last updated : <t:{int(time.time())}:T>")
         elif len(item) == 9 and item[8] == "OK":
             if item[0] in [1,2]:
                 channel_id = 1200281905174675577
@@ -230,12 +230,10 @@ async def check_loop():
 
             if item[0] % 2 == 1:
                 embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0x00ff00)
-                # embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0x00ff00)
                 await channel.send(embed=embed)
                 await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
             else:
                 embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0xff0000)
-                # embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**\n{hour}:{minute}",color=0xff0000)
                 await channel.send(embed=embed)
                 await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
         elif item[1] == 'ApiKeyError':

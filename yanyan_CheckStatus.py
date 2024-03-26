@@ -1,7 +1,7 @@
 from yanyan_GetStatus import bedwars_status
 from yanyan_ChangeCsv import change_csv
 
-def check_status():
+async def check_status():
     with open('./player.csv', 'r',) as e:
         data = e.read()
         data = data.split("\n")
@@ -23,7 +23,7 @@ def check_status():
     for i, item in enumerate(data):
         if i != 0 and i != len(data)-1:
             data_item = item.split(",")
-            status = bedwars_status(False, data_item[22])
+            status = await bedwars_status(False, data_item[22])
             if status[0] == True and status[1] == "Key throttle":
                 continue
             if status[0] == True and status[1] == "ApiKeyError":
@@ -52,9 +52,9 @@ def check_status():
                                 except ZeroDivisionError:
                                     fkdr = int(str_status[i+(i%2)+11])-int(data_item[i+(i%2)+11])
                                 return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[11], rank, str_status[24], fkdr, data_item[(i+(i%2))//2+25],"OK"])
-                                change_csv(data_item[22],i % 2, data_item[11],fkdr, False, i)
+                                await change_csv(data_item[22],i % 2, data_item[11],fkdr, False, i)
                             else:
-                                change_csv(data_item[22], None, None, None, True, None)
+                                await change_csv(data_item[22], None, None, None, True, None)
                                 return_list.append(True)
             elif status[0] == True:
                 return_list = [status]

@@ -1,7 +1,7 @@
 import csv
 from yanyan_GetStatus import bedwars_status
 
-def reset_session(name):
+async def reset_session(name):
     with open('./player.csv', 'r',) as e:
         data = e.read()
         data = data.split("\n")
@@ -15,7 +15,7 @@ def reset_session(name):
     with open('./player.csv', 'w', newline="") as e:
         writer = csv.writer(e)
         writer.writerows(csv_list)
-        status = bedwars_status(True, name)
+        status = await bedwars_status(True, name)
         if status[0] != True:
             status.append(0)
             writer.writerow(status)

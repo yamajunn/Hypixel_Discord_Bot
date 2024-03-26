@@ -1,7 +1,7 @@
 import csv
 from yanyan_GetStatus import bedwars_status
 
-def allreset_session():
+async def allreset_session():
     with open('./player.csv', 'r',) as e:
         data = e.read()
         data = data.split("\n")
@@ -19,7 +19,7 @@ def allreset_session():
         writer = csv.writer(e)
         writer.writerow(first)
         for i, uuid in enumerate(uuid_list):
-            status = bedwars_status(False, uuid)
+            status = await bedwars_status(False, uuid)
             if status[0] != True:
                 for j in range(5):
                     status.append(0)

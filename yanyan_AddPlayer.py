@@ -1,7 +1,7 @@
 import csv
 from yanyan_GetStatus import bedwars_status
 
-def add_player(name):
+async def add_player(name):
     with open('./player.csv', 'r',) as e:
         players = []
         data = e.read()
@@ -14,7 +14,7 @@ def add_player(name):
     if not name in players:
         with open('./player.csv', 'a', newline="") as e:
             writer = csv.writer(e)
-            status = bedwars_status(True, name)
+            status = await bedwars_status(True, name)
             if status[0] != True:
                 if total_player <= 70:
                     for j in range(5):
