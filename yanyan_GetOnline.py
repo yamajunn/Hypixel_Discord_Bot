@@ -1,6 +1,8 @@
+import time
 def get_online():
     with open('./player.csv', 'r',) as e:
         onlines = ""
+        update_onlines = ""
         offlines = ""
         data = e.read()
         data = data.split("\n")
@@ -11,6 +13,8 @@ def get_online():
 
                 if item_data[25] == "True":
                     onlines += f"🟢　[{item_data[24]}☆]　**{item_data[0]}**\r"
+                elif time.time() - int(float(item_data[31])) <= 180:
+                    update_onlines += f"🟡　[{item_data[24]}☆]　**{item_data[0]}**\r"
                 else:
                     offlines += f"🔴　[{item_data[24]}☆]　{item_data[0]}\r"
-    return [onlines, offlines, total]
+    return [onlines, update_onlines, offlines, total]

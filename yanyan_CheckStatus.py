@@ -55,7 +55,6 @@ async def check_status():
                                 await change_csv(data_item[22],i % 2, data_item[11],fkdr, False, i)
                             else:
                                 await change_csv(data_item[22], None, None, None, True, None)
-                                return_list.append(True)
             elif status[0] == True:
                 return_list = [status]
     return return_list

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import dotenv
 import json
 import time
+import collections
 
 from yanyan_AddPlayer import add_player
 from yanyan_CheckStatus import check_status
@@ -204,16 +205,25 @@ async def online_command(interaction: discord.Interaction):
 async def check_loop():
     load_dotenv()
     return_list = await check_status()
+    game_mode = []
+    for item in return_list:
+        if len(item) == 9 and item[8] == "OK":
+            if item[0] != 1 or item[0] != 2:
+                game_mode.append(item[0])
+    if len(game_mode) != 0:
+        party_list = [k for k, v in collections.Counter(game_mode).items() if v > 1]
+        print(party_list)
+        for i, item in enumerate(return_list):
+            if item[0] in party_list:
+                return_list[i][0] = item[0] + 8
     for item in return_list:
         print(item)
-        if item == True:
-            channel = client.get_channel(1220168548136259634)
-            message = await channel.fetch_message(1220627500535779360)
-            online_list, offline_list, total = get_online()
-            embed = discord.Embed(title="Online Player",description=f"{online_list}\r{offline_list}\rtotal **{total}**",color=0x0000ff)
-            print("online update")
-            await message.edit(embed=embed, content=f"Last updated : <t:{int(time.time())}:T>")
-        elif len(item) == 9 and item[8] == "OK":
+        channel = client.get_channel(1220168548136259634)
+        message = await channel.fetch_message(1220627500535779360)
+        online_list, update_online, offline_list, total = get_online()
+        embed = discord.Embed(title="Online Player",description=f"{online_list}{update_online}\r{offline_list}\rtotal **{total}**",color=0x0000ff)
+        await message.edit(embed=embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
+        if len(item) == 9 and item[8] == "OK":
             if item[0] in [1,2]:
                 channel_id = 1200281905174675577
             elif item[0] in [3,4]:
@@ -261,6 +271,6 @@ async def check_loop():
             print("stop")
             check_loop.stop()
         else:
-            print("error?")
+            print(item[1])
 
 client.run(TOKEN)  # \(o v o)/ ﾜｰｲ

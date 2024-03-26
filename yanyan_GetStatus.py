@@ -9,7 +9,7 @@ async def bedwars_status(bool, name):
     try:
         async def getinfo(call):
             async with aiohttp.ClientSession() as session:
-                async with session.get(call,timeout=10) as r:
+                async with session.get(call) as r:
                     if r.status == 200:
                         return await r.json()
         
@@ -30,7 +30,6 @@ async def bedwars_status(bool, name):
             
         API_KEY = tokens[f"HYPIXEL_TOKEN_{di['api_num']}"]
         if di["call"] >= 140:
-            print("change")
             if di["api_num"] == 0:
                 API_KEY = tokens["HYPIXEL_TOKEN_1"]
                 di["api_num"] = 1
@@ -47,9 +46,10 @@ async def bedwars_status(bool, name):
         if bool:
             name_link = f"https://api.mojang.com/users/profiles/minecraft/{name}"
             info = await getinfo(name_link)
-            uuid = info["id"]
-            uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={uuid}"
-            # uuid_link = f"https://api.hypixel.net/recentgames?key={API_KEY}&uuid={uuid}"
+            if info != None:
+                uuid = info["id"]
+                uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={uuid}"
+                # uuid_link = f"https://api.hypixel.net/recentgames?key={API_KEY}&uuid={uuid}"
         else:
             uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={name}"
             uuid = name

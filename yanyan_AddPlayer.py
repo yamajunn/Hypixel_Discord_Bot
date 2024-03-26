@@ -1,4 +1,5 @@
 import csv
+import time
 from yanyan_GetStatus import bedwars_status
 
 async def add_player(name):
@@ -19,6 +20,7 @@ async def add_player(name):
                 if total_player <= 70:
                     for j in range(5):
                         status.append(0)
+                    status.append(time.time())
                     writer.writerow(status)
                     return f"Success! add {name}"
                 else:

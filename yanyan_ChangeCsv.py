@@ -1,5 +1,6 @@
 import csv
 from yanyan_GetStatus import bedwars_status
+import time
 
 async def change_csv(uuid, num, ws, fkdr, online, mode):
     with open('./player.csv', 'r',) as e:
@@ -14,6 +15,7 @@ async def change_csv(uuid, num, ws, fkdr, online, mode):
             elif i != len(data)-1 and split_item[22] == uuid:
                 session = list(split_item[12:21])
                 fkdrs = list(split_item[26:31])
+                update = split_item[31]
 
     with open('./player.csv', 'w', newline="") as e:
         writer = csv.writer(e)
@@ -29,7 +31,9 @@ async def change_csv(uuid, num, ws, fkdr, online, mode):
                 fkdrs[(mode + mode % 2)//2-1] = fkdr
                 for item in fkdrs:
                     status.append(item)
+                status.append(time.time())
             else:
                 for item in fkdrs:
                     status.append(item)
+                status.append(update)
             writer.writerow(status)
