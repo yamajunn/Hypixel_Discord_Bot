@@ -71,8 +71,8 @@ async def bedwars_status(bool, name):
                             data_list.append("Unknown")
                         dic_list = ['eight_one_wins_bedwars','eight_one_losses_bedwars',
                                     'eight_two_wins_bedwars','eight_two_losses_bedwars',
-                                    'four_four_wins_bedwars','four_four_losses_bedwars',
                                     'four_three_wins_bedwars','four_three_losses_bedwars',
+                                    'four_four_wins_bedwars','four_four_losses_bedwars',
                                     'two_four_wins_bedwars','two_four_losses_bedwars',
                                     'winstreak',
                                     'eight_one_final_deaths_bedwars','eight_one_final_kills_bedwars',

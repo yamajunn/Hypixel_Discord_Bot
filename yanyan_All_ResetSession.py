@@ -1,4 +1,5 @@
 import csv
+import time
 from yanyan_GetStatus import bedwars_status
 
 async def allreset_session():
@@ -23,6 +24,7 @@ async def allreset_session():
             if status[0] != True:
                 for j in range(5):
                     status.append(0)
+                status.append(time.time())
                 writer.writerow(status)
                 return_text = f"{return_text}Reset {status[0]} Session!\n"
             else:

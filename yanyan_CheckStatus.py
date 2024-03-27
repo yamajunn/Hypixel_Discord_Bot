@@ -9,8 +9,8 @@ async def check_status():
     game_name = [
         'Solo','eight_one_losses_bedwars',
         'Doubles','eight_two_losses_bedwars',
-        '4s','four_four_wins_bedwars',
         '3s','four_three_losses_bedwars',
+        '4s','four_four_wins_bedwars',
         '4v4','two_four_losses_bedwars',
         "Ws",
         'final_deaths_bedwars','final_kills_bedwars',
