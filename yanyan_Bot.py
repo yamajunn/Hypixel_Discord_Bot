@@ -70,6 +70,7 @@ async def list_command(interaction: discord.Interaction):
 
 
 @tree.command(name="output",description="Output player list")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def list_command(interaction: discord.Interaction):
     await interaction.response.defer()
     players = player_list()
@@ -80,6 +81,7 @@ async def list_command(interaction: discord.Interaction):
 
 
 @tree.command(name="input",description="Input player list")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def list_command(interaction: discord.Interaction,players:str):
     await interaction.response.defer()
     players = players[1:len(players)-1].replace("'","").replace(" ","").split(",")
@@ -92,6 +94,7 @@ async def list_command(interaction: discord.Interaction,players:str):
     await interaction.followup.send(embed=embed)
 
 @tree.command(name="data_output",description="Output Data")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def list_command(interaction: discord.Interaction):
     await interaction.response.defer()
     print("data output")
@@ -99,6 +102,7 @@ async def list_command(interaction: discord.Interaction):
 
 
 @tree.command(name="reset",description="Reset player session")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def reset_command(interaction: discord.Interaction,name:str):
     await interaction.response.defer()
     return_text = await reset_session(name)
@@ -108,6 +112,7 @@ async def reset_command(interaction: discord.Interaction,name:str):
 
 
 @tree.command(name="allreset",description="Reset sessions for all players")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def allreset_command(interaction: discord.Interaction):
     await interaction.response.defer()
     return_text = await allreset_session()
@@ -117,6 +122,7 @@ async def allreset_command(interaction: discord.Interaction):
 
 
 @tree.command(name="start",description="Tracker Start")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def start_command(interaction: discord.Interaction):
     await interaction.response.defer()
     with open('status.json') as f:
@@ -134,6 +140,7 @@ async def start_command(interaction: discord.Interaction):
 
 
 @tree.command(name="stop",description="Tracker Stop")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def stop_command(interaction: discord.Interaction):
     await interaction.response.defer()
     with open('status.json') as f:
@@ -151,6 +158,7 @@ async def stop_command(interaction: discord.Interaction):
 
 
 @tree.command(name="token1",description="Enter Hypixel token (yan1)")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def token1_command(interaction: discord.Interaction,token:str):
     await interaction.response.defer()
     with open('api.json') as f:
@@ -163,6 +171,7 @@ async def token1_command(interaction: discord.Interaction,token:str):
     await interaction.followup.send(embed=embed)
 
 @tree.command(name="token2",description="Enter Hypixel token (goki)")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def token2_command(interaction: discord.Interaction,token:str):
     await interaction.response.defer()
     with open('api.json') as f:
@@ -175,6 +184,7 @@ async def token2_command(interaction: discord.Interaction,token:str):
     await interaction.followup.send(embed=embed)
 
 @tree.command(name="token3",description="Enter Hypixel token (yan2)")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def token3_command(interaction: discord.Interaction,token:str):
     await interaction.response.defer()
     with open('api.json') as f:
@@ -188,6 +198,7 @@ async def token3_command(interaction: discord.Interaction,token:str):
 
 
 @tree.command(name="online",description="Online player list")
+@app_commands.checks.has_any_role(1200023227586596914)
 async def online_command(interaction: discord.Interaction):
     await interaction.response.defer()
     players_text = ""
@@ -208,13 +219,13 @@ async def check_loop():
     game_mode = []
     for item in return_list:
         if len(item) == 9 and item[8] == "OK":
-            if item[0] != 1 or item[0] != 2 and len(item) != 6:
+            if item[0] != 1 or item[0] != 2 and len(item) != 4:
                 game_mode.append(item[0])
     if len(game_mode) != 0:
         party_list = [k for k, v in collections.Counter(game_mode).items() if v > 1]
         party_dic = {}
         for i, item in enumerate(return_list):
-            if item[0] in party_list and len(item) != 6:
+            if item[0] in party_list and len(item) != 4:
                 if not item[0] in party_dic:
                     party_dic[item[0]] = [item]
                 else:
@@ -234,7 +245,7 @@ async def check_loop():
     await message.edit(embed=embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
     for item in return_list:
         print(item)
-        if (len(item) == 9 or len(item)%7 == 2 or len(item) == 6) and item[len(item)-1] == "OK":
+        if (len(item) == 9 or len(item)%7 == 2) and item[len(item)-1] == "OK":
             if item[0] in [1,2]:
                 channel_id = 1200281905174675577
             elif item[0] in [3,4]:
@@ -257,19 +268,14 @@ async def check_loop():
                 break
             channel = client.get_channel(channel_id)
             if item[0] in [1,2,3,4,5,6,7,8,9,10]:
-                if len(item) != 6:
-                    if item[0] % 2 == 1:
-                        embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0x1DAF00)
-                        await channel.send(embed=embed)
-                        await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
-                    else:
-                        embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0xff0000)
-                        await channel.send(embed=embed)
-                        await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
-                else:
-                    embed = discord.Embed(title=f"[{item[4]}☆] {item[3]}{item[1]}",description=f"Started **{item[2]}** game",color=0x0099ff)
+                if item[0] % 2 == 1:
+                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0x1DAF00)
                     await channel.send(embed=embed)
                     await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
+                else:
+                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=0xff0000)
+                    await channel.send(embed=embed)
+                    await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
             elif item[0] in [11,12,13,14,15,16,17,18]:
                 if item[0] % 2 == 1:
                     players_title = ""
@@ -291,6 +297,11 @@ async def check_loop():
                     embed = discord.Embed(title=players_title,description=f"{mode}\n\n{players_description}",color=0xff0000)
                     await channel.send(embed=embed)
                     await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
+        elif len(item) == 4 and item[len(item)-1] == "OK":
+            channel = client.get_channel(1222520603525910598)
+            embed = discord.Embed(title=f"[{item[2]}☆] {item[1]}{item[0]}",description=f"Started game",color=0x0099ff)
+            await channel.send(embed=embed)
+            await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
         elif item[1] == 'ApiKeyError':
             with open('status.json') as f:
                 di = json.load(f)
@@ -316,6 +327,6 @@ async def check_loop():
             print("stop")
             check_loop.stop()
         else:
-            print(item[1])
+            print(item)
 
 client.run(TOKEN)  # \(o v o)/ ﾜｰｲ

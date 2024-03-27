@@ -14,7 +14,7 @@ async def change_csv(uuid, num, ws, fkdr, online, mode):
                 csv_list.append(split_item)
             elif i != len(data)-1 and split_item[22] == uuid:
                 session = list(split_item[12:21])
-                fkdrs = list(split_item[31:36])
+                fkdrs = list(split_item[27:32])
 
     with open('./player.csv', 'w', newline="") as e:
         writer = csv.writer(e)

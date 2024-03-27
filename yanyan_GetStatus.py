@@ -116,11 +116,15 @@ async def bedwars_status(bool, name):
                             'four_four_games_played_bedwars',
                             'two_four_games_played_bedwars'
                                     ]
-                        for queue in game_played:
-                            if queue in data_dic["player"]["stats"]["Bedwars"]:
-                                data_list.append(data_dic["player"]["stats"]["Bedwars"][queue])
-                            else:
-                                data_list.append(0)
+                        # for queue in game_played:
+                        #     if queue in data_dic["player"]["stats"]["Bedwars"]:
+                        #         data_list.append(data_dic["player"]["stats"]["Bedwars"][queue])
+                        #     else:
+                        #         data_list.append(0)
+                        if 'games_played_bedwars_1' in data_dic["player"]["stats"]["Bedwars"]:
+                            data_list.append(data_dic["player"]["stats"]["Bedwars"]['games_played_bedwars_1'])
+                        else:
+                            data_list.append(0)
                         return data_list
                     else:
                         return [True, "Status not Success"]

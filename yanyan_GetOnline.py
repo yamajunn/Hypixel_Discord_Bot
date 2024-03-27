@@ -13,8 +13,8 @@ def get_online():
 
                 if item_data[25] == "True":
                     onlines += f"🟢　[{item_data[24]}☆]　**{item_data[0]}**\r"
-                elif time.time() - int(float(item_data[31])) <= 180:
-                    update_onlines += f"🟡　[{item_data[37]}☆]　**{item_data[0]}**\r"
+                elif time.time() - int(float(item_data[32])) <= 300:
+                    update_onlines += f"🟡　[{item_data[24]}☆]　**{item_data[0]}**\r"
                 else:
                     offlines += f"🔴　[{item_data[24]}☆]　{item_data[0]}\r"
     return [onlines, update_onlines, offlines, total]
