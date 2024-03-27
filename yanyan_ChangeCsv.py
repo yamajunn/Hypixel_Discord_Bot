@@ -13,7 +13,7 @@ async def change_csv(uuid, num, ws, fkdr, online, mode):
             if i != len(data)-1 and split_item[22] != uuid:
                 csv_list.append(split_item)
             elif i != len(data)-1 and split_item[22] == uuid:
-                session = list(split_item[12:21])
+                session = list(split_item[11:21])
                 fkdrs = list(split_item[27:32])
 
     with open('./player.csv', 'w', newline="") as e:
@@ -21,7 +21,7 @@ async def change_csv(uuid, num, ws, fkdr, online, mode):
         writer.writerows(csv_list)
         status = await bedwars_status(False, uuid)
         if status[0] != True:
-            status[12:21] = session
+            status[11:21] = session
             if not online:
                 if num == 1:
                     status[11] = int(ws)+1

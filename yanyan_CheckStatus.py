@@ -52,7 +52,7 @@ async def check_status():
                                     fkdr = round((int(str_status[i+(i%2)+11])-int(data_item[i+(i%2)+11])) / (int(str_status[i+(i%2)+10])-int(data_item[i+(i%2)+10])), 2)
                                 except ZeroDivisionError:
                                     fkdr = int(str_status[i+(i%2)+11])-int(data_item[i+(i%2)+11])
-                                return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[11], rank, str_status[24], fkdr, data_item[(i+(i%2))//2+26],"OK"])
+                                return_list.append([i, data_item[0], game_name[i+(i%2-1)-1], data_item[11], rank, str_status[24], fkdr, data_item[(i+(i%2))//2+26], data_item[32], "OK"])
                                 await change_csv(data_item[22],i % 2, data_item[11],fkdr, False, i)
                             elif i == 25:
                                 await change_csv(data_item[22], None, None, None, True, None)
