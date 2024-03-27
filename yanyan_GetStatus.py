@@ -4,6 +4,7 @@ import pprint
 import json
 import time
 import aiohttp
+import asyncio
 
 async def bedwars_status(bool, name):
     try:
@@ -108,6 +109,18 @@ async def bedwars_status(bool, name):
                                 data_list.append(True)
                         else:
                             data_list.append(False)
+                        game_played = [
+                            'eight_one_games_played_bedwars',
+                            'eight_two_games_played_bedwars',
+                            'four_three_games_played_bedwars',
+                            'four_four_games_played_bedwars',
+                            'two_four_games_played_bedwars'
+                                    ]
+                        for queue in game_played:
+                            if queue in data_dic["player"]["stats"]["Bedwars"]:
+                                data_list.append(data_dic["player"]["stats"]["Bedwars"][queue])
+                            else:
+                                data_list.append(0)
                         return data_list
                     else:
                         return [True, "Status not Success"]
@@ -133,4 +146,9 @@ async def bedwars_status(bool, name):
     else:
         return [True, "None data"]
     
-# print(bedwars_status(True, "Gokiton"))
+async def main():
+    # 他のコード
+    result = await bedwars_status(True, "Gokiton")
+    print(result)
+
+# asyncio.run(main())

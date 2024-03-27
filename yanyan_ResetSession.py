@@ -17,7 +17,8 @@ async def reset_session(name):
         writer.writerows(csv_list)
         status = await bedwars_status(True, name)
         if status[0] != True:
-            status.append(0)
+            for i in range(5):
+                status.append(0)
             writer.writerow(status)
         else:
             return_text = status[1]
