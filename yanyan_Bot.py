@@ -270,12 +270,17 @@ async def check_loop():
             channel = client.get_channel(channel_id)
             if item[0] in [1,2,3,4,5,6,7,8,9,10]:
                 if item[0] % 2 == 1:
-                    print(item[3])
-                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**\ntime : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**",color=0x1DAF00)
+                    color=0x1DAF00
+                    if item[3]+1 >= 50:
+                        color=0x660099
+                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**　　time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
                     await channel.send(embed=embed)
                     await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
                 else:
-                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**\ntime : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8]))%60)}**",color=0xff0000)
+                    color=0xff0000
+                    if item[3]+1 >= 50:
+                        color=0xffff00
+                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**　　time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
                     await channel.send(embed=embed)
                     await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
             elif item[0] in [11,12,13,14,15,16,17,18]:

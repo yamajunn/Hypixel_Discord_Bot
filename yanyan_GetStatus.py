@@ -7,12 +7,11 @@ import aiohttp
 import asyncio
 
 async def bedwars_status(bool, name):
+    async def getinfo(call):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(call) as r:
+                return await r.json()
     try:
-        async def getinfo(call):
-            async with aiohttp.ClientSession() as session:
-                async with session.get(call) as r:
-                    if r.status == 200:
-                        return await r.json()
         
         with open('status.json') as f:
             di = json.load(f)
@@ -152,7 +151,8 @@ async def bedwars_status(bool, name):
     
 async def main():
     # 他のコード
-    result = await bedwars_status(True, "Gokiton")
+    # result = await bedwars_status(True, "Gokiton")
+    result = await bedwars_status(False, "1ced16db2bc54354917f7bf8382b8840")
     print(result)
 
 # asyncio.run(main())
