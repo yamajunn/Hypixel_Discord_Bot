@@ -271,7 +271,7 @@ async def check_loop():
             if item[0] in [1,2,3,4,5,6,7,8,9,10]:
                 if item[0] % 2 == 1:
                     color=0x1DAF00
-                    if item[3]+1 >= 50:
+                    if int(item[3])+1 >= 50:
                         color=0x660099
                     embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**　　time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
                     await channel.send(embed=embed)
@@ -313,8 +313,6 @@ async def check_loop():
             with open('status.json') as f:
                 di = json.load(f)
             api_number = di['api_num']
-            if api_number == 0:
-                api_number = 2
             embed = discord.Embed(title=f"API has expired (number {api_number+1})\nhttps://developer.hypixel.net/dashboard/\n🛑 Stop tracker",color=0x0000ff)
             channel = client.get_channel(1200951245259686020)
             await channel.send(embed=embed)

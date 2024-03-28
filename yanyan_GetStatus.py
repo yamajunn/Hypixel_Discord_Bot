@@ -58,7 +58,7 @@ async def bedwars_status(bool, name):
     except KeyError:
         return [True, "ApiKeyError"]
     # print(data_dic)
-    # pprint.pprint(data_dic)
+    pprint.pprint(data_dic)
     data_list = []
     if data_dic != None:
         if not ("cause" in data_dic and data_dic["cause"] == 'Invalid API key'):
@@ -108,22 +108,23 @@ async def bedwars_status(bool, name):
                                 data_list.append(True)
                         else:
                             data_list.append(False)
-                        game_played = [
-                            'eight_one_games_played_bedwars',
-                            'eight_two_games_played_bedwars',
-                            'four_three_games_played_bedwars',
-                            'four_four_games_played_bedwars',
-                            'two_four_games_played_bedwars'
-                                    ]
-                        # for queue in game_played:
-                        #     if queue in data_dic["player"]["stats"]["Bedwars"]:
-                        #         data_list.append(data_dic["player"]["stats"]["Bedwars"][queue])
-                        #     else:
-                        #         data_list.append(0)
+
                         if 'games_played_bedwars_1' in data_dic["player"]["stats"]["Bedwars"]:
                             data_list.append(data_dic["player"]["stats"]["Bedwars"]['games_played_bedwars_1'])
                         else:
                             data_list.append(0)
+                        
+                        # if 'favourites_2' in data_dic["player"]["stats"]["Bedwars"]:
+                        #     quick_buy = list(map(str, data_dic["player"]["stats"]["Bedwars"]['favourites_2'].split(",")))
+                        #     item_count = 0
+                        #     for i in ['iron_sword', 'golden_apple', 'chainmail_boots']:
+                        #         if i in quick_buy:
+                        #             item_count += 1
+                        #     if item_count == 3:
+                        #         data_list.append(True)
+                        # else:
+                        #     data_list.append(False)
+
                         return data_list
                     else:
                         return [True, "Status not Success"]
@@ -155,4 +156,4 @@ async def main():
     result = await bedwars_status(False, "1ced16db2bc54354917f7bf8382b8840")
     print(result)
 
-# asyncio.run(main())
+asyncio.run(main())
