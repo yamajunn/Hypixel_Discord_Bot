@@ -51,7 +51,7 @@ async def bedwars_status(bool, name):
                 uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={uuid}"
                 # uuid_link = f"https://api.hypixel.net/recentgames?key={API_KEY}&uuid={uuid}"
         else:
-            uuid_link = f"https://api.hypixel.net/v2/leaderboards?key={API_KEY}&uuid={name}"
+            uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={name}"
             uuid = name
 
         data_dic = await getinfo(uuid_link)

@@ -278,7 +278,7 @@ async def check_loop():
                     await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
                 else:
                     color=0xff0000
-                    if item[3]+1 >= 50:
+                    if int(item[3])+1 >= 50:
                         color=0xffff00
                     embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**　　time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
                     await channel.send(embed=embed)
