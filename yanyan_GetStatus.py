@@ -58,7 +58,7 @@ async def bedwars_status(bool, name):
     except KeyError:
         return [True, "ApiKeyError"]
     # print(data_dic)
-    pprint.pprint(data_dic)
+    # pprint.pprint(data_dic)
     data_list = []
     if data_dic != None:
         if not ("cause" in data_dic and data_dic["cause"] == 'Invalid API key'):
@@ -156,4 +156,4 @@ async def main():
     result = await bedwars_status(False, "1ced16db2bc54354917f7bf8382b8840")
     print(result)
 
-asyncio.run(main())
+# asyncio.run(main())

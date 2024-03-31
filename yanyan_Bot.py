@@ -15,6 +15,7 @@ from yanyan_DeletePlayer import delete_player
 from yanyan_PlayerList import player_list
 from yanyan_Online import get_online_list
 from yanyan_GetOnline import get_online
+from yanyan_AI import judgment_cheater
 
 dotenv_file = dotenv.find_dotenv()
 with open('api.json') as f:
@@ -209,6 +210,17 @@ async def online_command(interaction: discord.Interaction):
         players_text = f"{players_text}🔴  {item}\n"
     embed = discord.Embed(title="Player Status",description=players_text,color=0x0000ff)
     print("online list")
+    await interaction.followup.send(embed=embed)
+
+@tree.command(name="cheat",description="Check Cheater")
+async def add_command(interaction: discord.Interaction,name:str):
+    await interaction.response.defer()
+    return_judgment = judgment_cheater(name)
+    if return_judgment == 0:
+        embed = discord.Embed(title=f"{name} is Cheater",color=0xff0000)
+    else:
+        embed = discord.Embed(title=f"{name} is Not Cheater",color=0x1DAF00)
+    print(return_judgment)
     await interaction.followup.send(embed=embed)
 
 # max 80 member
