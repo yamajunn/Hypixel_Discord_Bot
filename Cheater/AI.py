@@ -9,7 +9,7 @@ df = pd.read_csv(data_path)
 
 X = df.drop('Cheat', axis=1)
 
-# X = df[['karma', 'networkExp', 'bedwars_bedwars_killer', 'bedwars_loot_box','BEDWARS__offensive', 'Bedwars_openedChests', 'coins','final_deaths_bedwars', 'losses_bedwars', 'wins_bedwars']]
+X = df[['karma', 'networkExp', 'bedwars_bedwars_killer', 'bedwars_loot_box','BEDWARS__offensive', 'Bedwars_openedChests', 'coins','final_deaths_bedwars', 'losses_bedwars', 'wins_bedwars','fkdr','wlr','bblr','fk_lev','bb_lev','kill_lev']]
 # X = df[['networkExp', 'bedwars_beds', 'bedwars_level', 'bedwars_wins', 'beds_broken_bedwars', 'beds_lost_bedwars', 'deaths_bedwars', 'diamond_resources_collected_bedwars', 'emerald_resources_collected_bedwars', 'fall_deaths_bedwars', 'final_deaths_bedwars', 'final_kills_bedwars', 'games_played_bedwars', 'games_played_bedwars_1', 'kills_bedwars', 'losses_bedwars', 'void_deaths_bedwars', 'void_final_deaths_bedwars', 'wins_bedwars']]
 
 y = df['Cheat']
@@ -24,7 +24,7 @@ X_train_scaled = X_train
 X_test_scaled = X_test
 
 # model = MLPClassifier(hidden_layer_sizes=(500,50), max_iter=200)
-model = RandomForestClassifier(random_state=0)
+model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train_scaled, y_train)
 
 # 訓練データの正解率
