@@ -252,10 +252,12 @@ async def check_loop():
             combine_list.append("OK")
             return_list.append(combine_list)
     channel = client.get_channel(1220168548136259634)
-    message = await channel.fetch_message(1220627500535779360)
+    message_green = await channel.fetch_message(1224971404869505037)
     online_list, update_online, offline_list, total = get_online()
-    embed = discord.Embed(title="Online Player",description=f"{online_list}{update_online}\r{offline_list}\rtotal **{total}**",color=0x0000ff)
-    await message.edit(embed=embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
+    green = discord.Embed(title="**Online Player**",description=f"{online_list}",color=0x1DAF00)
+    yellow = discord.Embed(description=f"{update_online}",color=0xEEEE00)
+    red = discord.Embed(description=f"{offline_list}\rtotal **{total}**",color=0xBB0000)
+    await message_green.edit(embeds=[green,yellow,red], content=f"**Last updated :** <t:{int(time.time())}:R>")
     for item in return_list:
         print(item)
         if (len(item) == 10 or len(item)%7 == 2) and item[len(item)-1] == "OK":
@@ -281,18 +283,24 @@ async def check_loop():
                 break
             channel = client.get_channel(channel_id)
             if item[0] in [1,2,3,4,5,6,7,8,9,10]:
+                player_name = ""
+                for name in list(item[1]):
+                    if name == "_":
+                        player_name += "\_"
+                    else:
+                        player_name += name
                 if item[0] % 2 == 1:
                     color=0x1DAF00
                     if int(item[3])+1 >= 50:
                         color=0x660099
-                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{item[1]}",description=f"Won with **{item[2]}**　　time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
+                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{player_name}",description=f"Won with **{item[2]}** time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
                     await channel.send(embed=embed)
                     await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
                 else:
                     color=0xff0000
                     if int(item[3])+1 >= 50:
                         color=0xffff00
-                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{item[1]}",description=f"Lost with **{item[2]}**　　time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
+                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{player_name}",description=f"Lost with **{item[2]}** time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
                     await channel.send(embed=embed)
                     await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
             elif item[0] in [11,12,13,14,15,16,17,18]:
@@ -301,7 +309,13 @@ async def check_loop():
                     mode = f"Won with **{item[2]}**"
                     players_description = ""
                     for j in range(len(item)//7):
-                        players_title += f"🔷 [{item[j*7+5]}☆] {item[j*7+4]}{item[j*7+1]}\n"
+                        player_name = ""
+                        for name in list(item[j*7+1]):
+                            if name == "_":
+                                player_name += "\_"
+                            else:
+                                player_name += name
+                        players_title += f"🔷 [{item[j*7+5]}☆] {item[j*7+4]}{player_name}\n"
                         players_description += f"**{item[j*7+1]}**\nWs : {item[j*7+3]} → **{int(item[j*7+3])+1}**\nSession FKDR : {item[j*7+7]} → **{item[j*7+6]}**\n\n"
                     embed = discord.Embed(title=players_title,description=f"{mode}\n\n{players_description}\ntime : **{int((time.time()-float(item[len(item)-2]))//60)}:{int((time.time()-float(item[len(item)-2]))%60)}**",color=0x1DAF00)
                     await channel.send(embed=embed)
@@ -311,7 +325,13 @@ async def check_loop():
                     mode = f"Lost with **{item[2]}**"
                     players_description = ""
                     for j in range(len(item)//7):
-                        players_title += f"🔻 [{item[j*7+5]}☆] {item[j*7+4]}{item[j*7+1]}\n"
+                        player_name = ""
+                        for name in list(item[j*7+1]):
+                            if name == "_":
+                                player_name += "\_"
+                            else:
+                                player_name += name
+                        players_title += f"🔻 [{item[j*7+5]}☆] {item[j*7+4]}{player_name}\n"
                         players_description += f"**{item[j*7+1]}**\nWs : {item[j*7+3]} → **{int(item[j*7+3])+1}**\nSession FKDR : {item[j*7+7]} → **{item[j*7+6]}**\n\n"
                     embed = discord.Embed(title=players_title,description=f"{mode}\n\n{players_description}\ntime : **{int((time.time()-float(item[len(item)-2]))//60)}:{int((time.time()-float(item[len(item)-2]))%60)}**",color=0xff0000)
                     await channel.send(embed=embed)
