@@ -53,11 +53,12 @@ def judgment_cheater(name):
                 new_data.append(item[j])
         new_datas.append(new_data)
 
-    X_test_scaled = pd.DataFrame(new_datas, columns=X)
-    # scaler = StandardScaler()
-    # X_test_scaled2 = scaler.fit_transform(X_test_scaled)
+    scaler = joblib.load('models/scaler/scaler.joblib')
 
-    y_pred = model.predict(X_test_scaled)
+    X_test_scaled = pd.DataFrame(new_datas, columns=X)
+    X_test_scaled2 = scaler.fit_transform(X_test_scaled)
+
+    y_pred = model.predict(X_test_scaled2)
 
     return y_pred[0]
 

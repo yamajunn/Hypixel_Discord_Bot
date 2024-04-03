@@ -17,11 +17,11 @@ y = df['Cheat']
 # 訓練データとテストデータに分ける
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-# scaler = StandardScaler()
-# X_train_scaled = scaler.fit_transform(X_train)
-# X_test_scaled = scaler.transform(X_test)
-X_train_scaled = X_train
-X_test_scaled = X_test
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+# X_train_scaled = X_train
+# X_test_scaled = X_test
 
 # model = MLPClassifier(hidden_layer_sizes=(500,50), max_iter=200)
 model = RandomForestClassifier(n_estimators=100, random_state=42)
@@ -35,5 +35,6 @@ print(f'Training Accuracy: {train_accuracy}')
 test_accuracy = model.score(X_test_scaled, y_test)
 print(f'Testing Accuracy: {test_accuracy}')
 
+joblib.dump(scaler, 'models/scaler/scaler.joblib')
 # モデルをファイルに保存
 joblib.dump(model, 'models/Cheater.pkl')
