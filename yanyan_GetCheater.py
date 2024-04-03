@@ -108,14 +108,14 @@ def get_cheater(cheat, name):
                 datas.append(0)
             else:
                 datas.append(1)
-            if not all(i == 0 for i in datas):
-                data_list.append(datas)
-                # print(f"{datas[0:len(datas)-1]}")
             for k in [27,32,18,6]:
                 if datas[k] == 0:
                     datas[k] = 1
             for j in [datas[28] / datas[27], datas[37] / datas[32], datas[17] / datas[18], datas[28] / datas[6], datas[31] / datas[6], datas[17] / datas[6]]:
                 datas.append(j)
+            if not all(i == 0 for i in datas):
+                data_list.append(datas)
+                # print(f"{datas[0:len(datas)-1]}")
         else:
             print(i, data_dic)
     return data_list

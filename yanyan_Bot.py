@@ -218,9 +218,10 @@ async def add_command(interaction: discord.Interaction,name:str):
     return_judgment = judgment_cheater(name)
     if return_judgment == 0:
         embed = discord.Embed(title=f"{name} is Cheater",color=0xff0000)
+        print(f"{name} is Cheater")
     else:
         embed = discord.Embed(title=f"{name} is Not Cheater",color=0x1DAF00)
-    print(return_judgment)
+        print(f"{name} is Not Cheater")
     await interaction.followup.send(embed=embed)
 
 # max 80 member
@@ -260,7 +261,7 @@ async def check_loop():
     await message_green.edit(embeds=[green,yellow,red], content=f"**Last updated :** <t:{int(time.time())}:R>")
     for item in return_list:
         print(item)
-        if (len(item) == 10 or len(item)%7 == 2) and item[len(item)-1] == "OK":
+        if (len(item) == 10 or len(item)%7 == 3) and item[len(item)-1] == "OK":
             if item[0] in [1,2]:
                 channel_id = 1200281905174675577
             elif item[0] in [3,4]:
@@ -317,7 +318,7 @@ async def check_loop():
                                 player_name += name
                         players_title += f"🔷 [{item[j*7+5]}☆] {item[j*7+4]}{player_name}\n"
                         players_description += f"**{item[j*7+1]}**\nWs : {item[j*7+3]} → **{int(item[j*7+3])+1}**\nSession FKDR : {item[j*7+7]} → **{item[j*7+6]}**\n\n"
-                    embed = discord.Embed(title=players_title,description=f"{mode}\n\n{players_description}\ntime : **{int((time.time()-float(item[len(item)-2]))//60)}:{int((time.time()-float(item[len(item)-2]))%60)}**",color=0x1DAF00)
+                    embed = discord.Embed(title=players_title,description=f"{mode}\n\n{players_description}time : **{int((time.time()-float(item[len(item)-2]))//60)}:{int((time.time()-float(item[len(item)-2]))%60)}**",color=0x1DAF00)
                     await channel.send(embed=embed)
                     await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
                 else:

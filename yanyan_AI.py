@@ -61,4 +61,4 @@ def judgment_cheater(name):
 
     return y_pred[0]
 
-print(judgment_cheater("Gokiton"))
+# print(judgment_cheater("Gokiton"))
