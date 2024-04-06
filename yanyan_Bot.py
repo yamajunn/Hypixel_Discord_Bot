@@ -212,17 +212,15 @@ async def online_command(interaction: discord.Interaction):
     print("online list")
     await interaction.followup.send(embed=embed)
 
-@tree.command(name="cheat",description="Check Cheater")
-async def add_command(interaction: discord.Interaction,name:str):
-    await interaction.response.defer()
-    return_judgment = judgment_cheater(name)
-    if return_judgment == 0:
-        embed = discord.Embed(title=f"{name} is Cheater",color=0xff0000)
-        print(f"{name} is Cheater")
-    else:
-        embed = discord.Embed(title=f"{name} is Not Cheater",color=0x1DAF00)
-        print(f"{name} is Not Cheater")
-    await interaction.followup.send(embed=embed)
+# @tree.command(name="cheat",description="Check Cheater")
+# async def add_command(interaction: discord.Interaction,name:str):
+#     await interaction.response.defer()
+#     return_judgment = judgment_cheater(name)
+#     if return_judgment >= 0.9:
+#         embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0xff0000)
+#     else:
+#         embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0x1DAF00)
+#     await interaction.followup.send(embed=embed)
 
 # max 80 member
 @tasks.loop(seconds=30)  # 何秒おきにステータスをチェックするか指定(今は30秒)
@@ -256,8 +254,8 @@ async def check_loop():
     message_green = await channel.fetch_message(1224971404869505037)
     online_list, update_online, offline_list, total = get_online()
     green = discord.Embed(title="**Online Player**",description=f"{online_list}",color=0x1DAF00)
-    yellow = discord.Embed(description=f"{update_online}",color=0xEEEE00)
-    red = discord.Embed(description=f"{offline_list}\rtotal **{total}**",color=0xBB0000)
+    yellow = discord.Embed(title=None, description=f"{update_online}",color=0xEEEE00)
+    red = discord.Embed(title=None, description=f"{offline_list}\rtotal **{total}**",color=0xBB0000)
     await message_green.edit(embeds=[green,yellow,red], content=f"**Last updated :** <t:{int(time.time())}:R>")
     for item in return_list:
         print(item)
