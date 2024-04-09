@@ -10,11 +10,16 @@ def get_online():
         for i, item in enumerate(data):
             item_data = item.split(",")
             if i != len(data)-1 and i != 0:
-
+                player_name = ""
+                for name in list(item_data[0]):
+                    if name == "_":
+                        player_name += "\_"
+                    else:
+                        player_name += name
                 if item_data[25] == "True":
-                    onlines += f"🟢　[{item_data[24]}☆]　**{item_data[0]}**\r"
+                    onlines += f"🟢 [{item_data[24]}☆] **{player_name}**\r"
                 elif time.time() - int(float(item_data[32])) <= 300:
-                    update_onlines += f"🟡　[{item_data[24]}☆]　**{item_data[0]}**\r"
+                    update_onlines += f"🟡 [{item_data[24]}☆] **{player_name}**\r"
                 else:
-                    offlines += f"🔴　[{item_data[24]}☆]　{item_data[0]}\r"
+                    offlines += f"🔴 [{item_data[24]}☆] {player_name}\r"
     return [onlines, update_onlines, offlines, total]
