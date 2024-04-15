@@ -105,7 +105,8 @@ with open('status.json') as f:
 with open('api.json') as f:
     tokens = json.load(f)
 
-API_KEY = tokens[f"HYPIXEL_TOKEN_{di['api_num']}"]
+# API_KEY = tokens[f"HYPIXEL_TOKEN_{di['api_num']}"]
+API_KEY = tokens[f"HYPIXEL_TOKEN_1"]
 
 def getinfo(call):
     r = requests.get(call,timeout=10)

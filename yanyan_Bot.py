@@ -212,15 +212,15 @@ async def online_command(interaction: discord.Interaction):
     print("online list")
     await interaction.followup.send(embed=embed)
 
-# @tree.command(name="cheat",description="Check Cheater")
-# async def add_command(interaction: discord.Interaction,name:str):
-#     await interaction.response.defer()
-#     return_judgment = judgment_cheater(name)
-#     if return_judgment >= 0.9:
-#         embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0xff0000)
-#     else:
-#         embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0x1DAF00)
-#     await interaction.followup.send(embed=embed)
+@tree.command(name="cheat",description="Check Cheater")
+async def add_command(interaction: discord.Interaction,name:str):
+    await interaction.response.defer()
+    return_judgment = judgment_cheater(name)
+    if return_judgment >= 0.9:
+        embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0xff0000)
+    else:
+        embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0x1DAF00)
+    await interaction.followup.send(embed=embed)
 
 # max 80 member
 @tasks.loop(seconds=30)  # 何秒おきにステータスをチェックするか指定(今は30秒)
@@ -243,20 +243,22 @@ async def check_loop():
                     party_dic[item[0]].append(item)
                 # return_list[i][0] = item[0] + 8
         for key, item in party_dic.items():
-            combine_list = [key+8]
-            for list_item in item:
-                for i in list_item[1:8]:
-                    combine_list.append(i)
-            combine_list.append(item[0][8])
-            combine_list.append("OK")
-            return_list.append(combine_list)
+            if not key in [1,2]:
+                combine_list = [key+8]
+                for list_item in item:
+                    for i in list_item[1:8]:
+                        combine_list.append(i)
+                combine_list.append(item[0][8])
+                combine_list.append("OK")
+                return_list.append(combine_list)
     channel = client.get_channel(1220168548136259634)
-    message_green = await channel.fetch_message(1224971404869505037)
+    message_id = await channel.fetch_message(1224971404869505037)
     online_list, update_online, offline_list, total = get_online()
-    green = discord.Embed(title="**Online Player**",description=f"{online_list}",color=0x1DAF00)
-    yellow = discord.Embed(title=None, description=f"{update_online}",color=0xEEEE00)
-    red = discord.Embed(title=None, description=f"{offline_list}\rtotal **{total}**",color=0xBB0000)
-    await message_green.edit(embeds=[green,yellow,red], content=f"**Last updated :** <t:{int(time.time())}:R>")
+    online_embed = discord.Embed(title="**Online Player**",description=f"{online_list}\n{update_online}\n{offline_list}\rtotal **{total}**",color=0x0000ff)
+    # green = discord.Embed(title="**Online Player**",description=f"{online_list}",color=0x1DAF00)
+    # yellow = discord.Embed(title=None, description=f"{update_online}",color=0xEEEE00)
+    # red = discord.Embed(title=None, description=f"{offline_list}\rtotal **{total}**",color=0xBB0000)
+    await message_id.edit(embed=online_embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
     for item in return_list:
         print(item)
         if (len(item) == 10 or len(item)%7 == 3) and item[len(item)-1] == "OK":
