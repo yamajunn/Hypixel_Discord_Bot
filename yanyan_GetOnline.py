@@ -7,9 +7,13 @@ def get_online():
         data = e.read()
         data = data.split("\n")
         total = len(data)
+        data = sorted(data)
+        for index, s in enumerate(data):
+            if s[0:4] == "MCID":
+                del data[index]
         for i, item in enumerate(data):
             item_data = item.split(",")
-            if i != len(data)-1 and i != 0:
+            if i != 0:
                 player_name = ""
                 for name in list(item_data[0]):
                     if name == "_":

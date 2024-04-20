@@ -15,7 +15,8 @@ from yanyan_DeletePlayer import delete_player
 from yanyan_PlayerList import player_list
 from yanyan_Online import get_online_list
 from yanyan_GetOnline import get_online
-from yanyan_AI import judgment_cheater
+from yanyan_GetWs import get_ws
+# from yanyan_AI import judgment_cheater
 
 dotenv_file = dotenv.find_dotenv()
 with open('api.json') as f:
@@ -212,15 +213,15 @@ async def online_command(interaction: discord.Interaction):
     print("online list")
     await interaction.followup.send(embed=embed)
 
-@tree.command(name="cheat",description="Check Cheater")
-async def add_command(interaction: discord.Interaction,name:str):
-    await interaction.response.defer()
-    return_judgment = judgment_cheater(name)
-    if return_judgment >= 0.9:
-        embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0xff0000)
-    else:
-        embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0x1DAF00)
-    await interaction.followup.send(embed=embed)
+# @tree.command(name="cheat",description="Check Cheater")
+# async def add_command(interaction: discord.Interaction,name:str):
+#     await interaction.response.defer()
+#     return_judgment = judgment_cheater(name)
+#     if return_judgment >= 0.9:
+#         embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0xff0000)
+#     else:
+#         embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0x1DAF00)
+#     await interaction.followup.send(embed=embed)
 
 # max 80 member
 @tasks.loop(seconds=30)  # 何秒おきにステータスをチェックするか指定(今は30秒)
@@ -259,6 +260,12 @@ async def check_loop():
     # yellow = discord.Embed(title=None, description=f"{update_online}",color=0xEEEE00)
     # red = discord.Embed(title=None, description=f"{offline_list}\rtotal **{total}**",color=0xBB0000)
     await message_id.edit(embed=online_embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
+
+    ws_channel = client.get_channel(1231275228341207072)
+    ws_message_id = await ws_channel.fetch_message(1231280642449215619)
+    ws, total = get_ws()
+    ws_embed = discord.Embed(title="**WS Leader Board**",description=f"{ws}\rtotal **{total}**",color=0x0000ff)
+    await ws_message_id.edit(embed=ws_embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
     for item in return_list:
         print(item)
         if (len(item) == 10 or len(item)%7 == 3) and item[len(item)-1] == "OK":
