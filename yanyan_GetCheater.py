@@ -107,13 +107,13 @@ with open('api.json') as f:
 
 # API_KEY = tokens[f"HYPIXEL_TOKEN_{di['api_num']}"]
 API_KEY = tokens[f"HYPIXEL_TOKEN_1"]
+# API_KEY = "bee552bc-c708-4375-9e34-01662a8822e0"
 
 def getinfo(call):
     r = requests.get(call,timeout=10)
     return r.json()
 
 def get_cheater(name):
-
     name_link = f"https://api.mojang.com/users/profiles/minecraft/{name}"
     info = getinfo(name_link)
     get_uuid = ""
@@ -161,4 +161,4 @@ def get_cheater(name):
             print(i, data_dic)
     return data_list
 
-# print(len(get_cheater("Gokiton")[0]))
+# print(get_cheater("Gokiton"))

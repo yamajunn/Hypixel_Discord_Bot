@@ -16,7 +16,7 @@ from yanyan_PlayerList import player_list
 from yanyan_Online import get_online_list
 from yanyan_GetOnline import get_online
 from yanyan_GetWs import get_ws
-# from yanyan_AI import judgment_cheater
+from yanyan_AI import judgment_cheater
 
 dotenv_file = dotenv.find_dotenv()
 with open('api.json') as f:
@@ -213,165 +213,165 @@ async def online_command(interaction: discord.Interaction):
     print("online list")
     await interaction.followup.send(embed=embed)
 
-# @tree.command(name="cheat",description="Check Cheater")
-# async def add_command(interaction: discord.Interaction,name:str):
-#     await interaction.response.defer()
-#     return_judgment = judgment_cheater(name)
-#     if return_judgment >= 0.9:
-#         embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0xff0000)
-#     else:
-#         embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0x1DAF00)
-#     await interaction.followup.send(embed=embed)
+@tree.command(name="cheat",description="Check Cheater")
+async def add_command(interaction: discord.Interaction,name:str):
+    await interaction.response.defer()
+    return_judgment = judgment_cheater(name)
+    if return_judgment >= 0.9:
+        embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0xff0000)
+    else:
+        embed = discord.Embed(title=f"{name} is a {round(return_judgment*100,2)}% cheater",color=0x1DAF00)
+    await interaction.followup.send(embed=embed)
 
 # max 80 member
 @tasks.loop(seconds=30)  # 何秒おきにステータスをチェックするか指定(今は30秒)
 async def check_loop():
     load_dotenv()
-    return_list = await check_status()
-    game_mode = []
-    for item in return_list:
-        if len(item) == 10 and item[9] == "OK":
-            if item[0] != 1 or item[0] != 2 and len(item) != 4:
-                game_mode.append(item[0])
-    if len(game_mode) != 0:
-        party_list = [k for k, v in collections.Counter(game_mode).items() if v > 1]
-        party_dic = {}
-        for i, item in enumerate(return_list):
-            if item[0] in party_list and len(item) != 4:
-                if not item[0] in party_dic:
-                    party_dic[item[0]] = [item]
-                else:
-                    party_dic[item[0]].append(item)
-                # return_list[i][0] = item[0] + 8
-        for key, item in party_dic.items():
-            if not key in [1,2]:
-                combine_list = [key+8]
-                for list_item in item:
-                    for i in list_item[1:8]:
-                        combine_list.append(i)
-                combine_list.append(item[0][8])
-                combine_list.append("OK")
-                return_list.append(combine_list)
-    channel = client.get_channel(1220168548136259634)
-    message_id = await channel.fetch_message(1224971404869505037)
-    online_list, update_online, offline_list, total = get_online()
-    online_embed = discord.Embed(title="**Online Player**",description=f"{online_list}\n{update_online}\n{offline_list}\rtotal **{total}**",color=0x0000ff)
-    # green = discord.Embed(title="**Online Player**",description=f"{online_list}",color=0x1DAF00)
-    # yellow = discord.Embed(title=None, description=f"{update_online}",color=0xEEEE00)
-    # red = discord.Embed(title=None, description=f"{offline_list}\rtotal **{total}**",color=0xBB0000)
-    await message_id.edit(embed=online_embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
+    # return_list = await check_status()
+    # game_mode = []
+    # for item in return_list:
+    #     if len(item) == 10 and item[9] == "OK":
+    #         if item[0] != 1 or item[0] != 2 and len(item) != 4:
+    #             game_mode.append(item[0])
+    # if len(game_mode) != 0:
+    #     party_list = [k for k, v in collections.Counter(game_mode).items() if v > 1]
+    #     party_dic = {}
+    #     for i, item in enumerate(return_list):
+    #         if item[0] in party_list and len(item) != 4:
+    #             if not item[0] in party_dic:
+    #                 party_dic[item[0]] = [item]
+    #             else:
+    #                 party_dic[item[0]].append(item)
+    #             # return_list[i][0] = item[0] + 8
+    #     for key, item in party_dic.items():
+    #         if not key in [1,2]:
+    #             combine_list = [key+8]
+    #             for list_item in item:
+    #                 for i in list_item[1:8]:
+    #                     combine_list.append(i)
+    #             combine_list.append(item[0][8])
+    #             combine_list.append("OK")
+    #             return_list.append(combine_list)
+    # channel = client.get_channel(1220168548136259634)
+    # message_id = await channel.fetch_message(1224971404869505037)
+    # online_list, update_online, offline_list, total = get_online()
+    # online_embed = discord.Embed(title="**Online Player**",description=f"{online_list}\n{update_online}\n{offline_list}\rtotal **{total}**",color=0x0000ff)
+    # # green = discord.Embed(title="**Online Player**",description=f"{online_list}",color=0x1DAF00)
+    # # yellow = discord.Embed(title=None, description=f"{update_online}",color=0xEEEE00)
+    # # red = discord.Embed(title=None, description=f"{offline_list}\rtotal **{total}**",color=0xBB0000)
+    # await message_id.edit(embed=online_embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
 
-    ws_channel = client.get_channel(1231275228341207072)
-    ws_message_id = await ws_channel.fetch_message(1231280642449215619)
-    ws, total = get_ws()
-    ws_embed = discord.Embed(title="**WS Leader Board**",description=f"{ws}\rtotal **{total}**",color=0x0000ff)
-    await ws_message_id.edit(embed=ws_embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
-    for item in return_list:
-        print(item)
-        if (len(item) == 10 or len(item)%7 == 3) and item[len(item)-1] == "OK":
-            if item[0] in [1,2]:
-                channel_id = 1200281905174675577
-            elif item[0] in [3,4]:
-                channel_id = 1200281873973264435
-            elif item[0] in [5,6]:
-                channel_id = 1200281758084628520
-            elif item[0] in [7,8]:
-                channel_id = 1200947061038776443
-            elif item[0] in [9,10]:
-                channel_id = 1201526061570207795
-            elif item[0] in [11,12]:
-                channel_id = 1220221698629046324
-            elif item[0] in [13,14]:
-                channel_id = 1220221713791586385
-            elif item[0] in [15,16]:
-                channel_id = 1220221735216087121
-            elif item[0] in [17,18]:
-                channel_id = 1220221763967910059
-            else:
-                break
-            channel = client.get_channel(channel_id)
-            if item[0] in [1,2,3,4,5,6,7,8,9,10]:
-                player_name = ""
-                for name in list(item[1]):
-                    if name == "_":
-                        player_name += "\_"
-                    else:
-                        player_name += name
-                if item[0] % 2 == 1:
-                    color=0x1DAF00
-                    if int(item[3])+1 >= 50:
-                        color=0x660099
-                    embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{player_name}",description=f"Won with **{item[2]}** time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
-                    await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
-                else:
-                    color=0xff0000
-                    if int(item[3])+1 >= 50:
-                        color=0xffff00
-                    embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{player_name}",description=f"Lost with **{item[2]}** time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
-                    await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
-            elif item[0] in [11,12,13,14,15,16,17,18]:
-                if item[0] % 2 == 1:
-                    players_title = ""
-                    mode = f"Won with **{item[2]}**"
-                    players_description = ""
-                    for j in range(len(item)//7):
-                        player_name = ""
-                        for name in list(item[j*7+1]):
-                            if name == "_":
-                                player_name += "\_"
-                            else:
-                                player_name += name
-                        players_title += f"🔷 [{item[j*7+5]}☆] {item[j*7+4]}{player_name}\n"
-                        players_description += f"**{item[j*7+1]}**\nWs : {item[j*7+3]} → **{int(item[j*7+3])+1}**\nSession FKDR : {item[j*7+7]} → **{item[j*7+6]}**\n\n"
-                    embed = discord.Embed(title=players_title,description=f"{mode}\n\n{players_description}time : **{int((time.time()-float(item[len(item)-2]))//60)}:{int((time.time()-float(item[len(item)-2]))%60)}**",color=0x1DAF00)
-                    await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
-                else:
-                    players_title = ""
-                    mode = f"Lost with **{item[2]}**"
-                    players_description = ""
-                    for j in range(len(item)//7):
-                        player_name = ""
-                        for name in list(item[j*7+1]):
-                            if name == "_":
-                                player_name += "\_"
-                            else:
-                                player_name += name
-                        players_title += f"🔻 [{item[j*7+5]}☆] {item[j*7+4]}{player_name}\n"
-                        players_description += f"**{item[j*7+1]}**\nWs : {item[j*7+3]} → **{int(item[j*7+3])+1}**\nSession FKDR : {item[j*7+7]} → **{item[j*7+6]}**\n\n"
-                    embed = discord.Embed(title=players_title,description=f"{mode}\n\n{players_description}\ntime : **{int((time.time()-float(item[len(item)-2]))//60)}:{int((time.time()-float(item[len(item)-2]))%60)}**",color=0xff0000)
-                    await channel.send(embed=embed)
-                    await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
-        elif len(item) == 4 and item[len(item)-1] == "OK":
-            channel = client.get_channel(1222520603525910598)
-            embed = discord.Embed(title=f"[{item[2]}☆] {item[1]}{item[0]}",description=f"Started game",color=0x0099ff)
-            await channel.send(embed=embed)
-            await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
-        elif item[1] == 'ApiKeyError':
-            with open('status.json') as f:
-                di = json.load(f)
-            api_number = di['api_num']
-            embed = discord.Embed(title=f"API has expired (number {api_number+1})\nhttps://developer.hypixel.net/dashboard/\n🛑 Stop tracker",color=0x0000ff)
-            channel = client.get_channel(1200951245259686020)
-            await channel.send(embed=embed)
-            if api_number  == 1:
-                user = await client.fetch_user(797350769250140161)
-            else:
-                user = await client.fetch_user(805317573511479306)
-            mention = user.mention
-            await channel.send(f"{mention}")
-            with open('status.json') as f:
-                di = json.load(f)
-            if di["status"] == "True":
-                check_loop.stop()
-                di["status"] = "False"
-                with open('status.json', 'wt') as f:
-                    json.dump(di, f)
-            print("stop")
-            check_loop.stop()
-        else:
-            print(item)
+    # ws_channel = client.get_channel(1231275228341207072)
+    # ws_message_id = await ws_channel.fetch_message(1231280642449215619)
+    # ws, total = get_ws()
+    # ws_embed = discord.Embed(title="**WS Leader Board**",description=f"{ws}\rtotal **{total}**",color=0x0000ff)
+    # await ws_message_id.edit(embed=ws_embed, content=f"**Last updated :** <t:{int(time.time())}:R>")
+    # for item in return_list:
+    #     print(item)
+    #     if (len(item) == 10 or len(item)%7 == 3) and item[len(item)-1] == "OK":
+    #         if item[0] in [1,2]:
+    #             channel_id = 1200281905174675577
+    #         elif item[0] in [3,4]:
+    #             channel_id = 1200281873973264435
+    #         elif item[0] in [5,6]:
+    #             channel_id = 1200281758084628520
+    #         elif item[0] in [7,8]:
+    #             channel_id = 1200947061038776443
+    #         elif item[0] in [9,10]:
+    #             channel_id = 1201526061570207795
+    #         elif item[0] in [11,12]:
+    #             channel_id = 1220221698629046324
+    #         elif item[0] in [13,14]:
+    #             channel_id = 1220221713791586385
+    #         elif item[0] in [15,16]:
+    #             channel_id = 1220221735216087121
+    #         elif item[0] in [17,18]:
+    #             channel_id = 1220221763967910059
+    #         else:
+    #             break
+    #         channel = client.get_channel(channel_id)
+    #         if item[0] in [1,2,3,4,5,6,7,8,9,10]:
+    #             player_name = ""
+    #             for name in list(item[1]):
+    #                 if name == "_":
+    #                     player_name += "\_"
+    #                 else:
+    #                     player_name += name
+    #             if item[0] % 2 == 1:
+    #                 color=0x1DAF00
+    #                 if int(item[3])+1 >= 50:
+    #                     color=0x660099
+    #                 embed = discord.Embed(title=f"🔷 [{item[5]}☆] {item[4]}{player_name}",description=f"Won with **{item[2]}** time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{int(item[3])+1}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
+    #                 await channel.send(embed=embed)
+    #                 await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
+    #             else:
+    #                 color=0xff0000
+    #                 if int(item[3])+1 >= 50:
+    #                     color=0xffff00
+    #                 embed = discord.Embed(title=f"🔻 [{item[5]}☆] {item[4]}{player_name}",description=f"Lost with **{item[2]}** time : **{int((time.time()-float(item[8]))//60)}:{int((time.time()-float(item[8])))%60}**\nWs : {item[3]} → **{0}**\nSession FKDR : {item[7]} → **{item[6]}**",color=color)
+    #                 await channel.send(embed=embed)
+    #                 await channel.send(f"<t:{int(time.time())}:T>　　<t:{int(time.time())}:R>")
+    #         elif item[0] in [11,12,13,14,15,16,17,18]:
+    #             if item[0] % 2 == 1:
+    #                 players_title = ""
+    #                 mode = f"Won with **{item[2]}**"
+    #                 players_description = ""
+    #                 for j in range(len(item)//7):
+    #                     player_name = ""
+    #                     for name in list(item[j*7+1]):
+    #                         if name == "_":
+    #                             player_name += "\_"
+    #                         else:
+    #                             player_name += name
+    #                     players_title += f"🔷 [{item[j*7+5]}☆] {item[j*7+4]}{player_name}\n"
+    #                     players_description += f"**{item[j*7+1]}**\nWs : {item[j*7+3]} → **{int(item[j*7+3])+1}**\nSession FKDR : {item[j*7+7]} → **{item[j*7+6]}**\n\n"
+    #                 embed = discord.Embed(title=players_title,description=f"{mode}\n\n{players_description}time : **{int((time.time()-float(item[len(item)-2]))//60)}:{int((time.time()-float(item[len(item)-2]))%60)}**",color=0x1DAF00)
+    #                 await channel.send(embed=embed)
+    #                 await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
+    #             else:
+    #                 players_title = ""
+    #                 mode = f"Lost with **{item[2]}**"
+    #                 players_description = ""
+    #                 for j in range(len(item)//7):
+    #                     player_name = ""
+    #                     for name in list(item[j*7+1]):
+    #                         if name == "_":
+    #                             player_name += "\_"
+    #                         else:
+    #                             player_name += name
+    #                     players_title += f"🔻 [{item[j*7+5]}☆] {item[j*7+4]}{player_name}\n"
+    #                     players_description += f"**{item[j*7+1]}**\nWs : {item[j*7+3]} → **{int(item[j*7+3])+1}**\nSession FKDR : {item[j*7+7]} → **{item[j*7+6]}**\n\n"
+    #                 embed = discord.Embed(title=players_title,description=f"{mode}\n\n{players_description}\ntime : **{int((time.time()-float(item[len(item)-2]))//60)}:{int((time.time()-float(item[len(item)-2]))%60)}**",color=0xff0000)
+    #                 await channel.send(embed=embed)
+    #                 await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
+    #     elif len(item) == 4 and item[len(item)-1] == "OK":
+    #         channel = client.get_channel(1222520603525910598)
+    #         embed = discord.Embed(title=f"[{item[2]}☆] {item[1]}{item[0]}",description=f"Started game",color=0x0099ff)
+    #         await channel.send(embed=embed)
+    #         await channel.send(f"<t:{int(time.time())}:T> 　　<t:{int(time.time())}:R>")
+    #     elif item[1] == 'ApiKeyError':
+    #         with open('status.json') as f:
+    #             di = json.load(f)
+    #         api_number = di['api_num']
+    #         embed = discord.Embed(title=f"API has expired (number {api_number+1})\nhttps://developer.hypixel.net/dashboard/\n🛑 Stop tracker",color=0x0000ff)
+    #         channel = client.get_channel(1200951245259686020)
+    #         await channel.send(embed=embed)
+    #         if api_number  == 1:
+    #             user = await client.fetch_user(797350769250140161)
+    #         else:
+    #             user = await client.fetch_user(805317573511479306)
+    #         mention = user.mention
+    #         await channel.send(f"{mention}")
+    #         with open('status.json') as f:
+    #             di = json.load(f)
+    #         if di["status"] == "True":
+    #             check_loop.stop()
+    #             di["status"] = "False"
+    #             with open('status.json', 'wt') as f:
+    #                 json.dump(di, f)
+    #         print("stop")
+    #         check_loop.stop()
+    #     else:
+    #         print(item)
 
 client.run(TOKEN)  # \(o v o)/ ﾜｰｲ
